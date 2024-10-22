@@ -1,0 +1,19 @@
+{
+    "name": "sulthon/peduli-rasa",
+    "description": "website berbagi peduli rasa dengan sesama",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "PeduliRasa\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ahnafi",
+            "email": "devsulthon@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8"
+    }
+}
