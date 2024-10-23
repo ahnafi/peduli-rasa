@@ -6,14 +6,20 @@ use PeduliRasa\App\Flasher;
 use PeduliRasa\App\View;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Exception\ValidationException;
+use PeduliRasa\Model\UserUploadPostRequest;
+use PeduliRasa\Repository\CategoryRepository;
+use PeduliRasa\Repository\PostImagesRepository;
+use PeduliRasa\Repository\PostRepository;
 use PeduliRasa\Repository\SessionRepository;
 use PeduliRasa\Repository\UserRepository;
+use PeduliRasa\Service\PostService;
 use PeduliRasa\Service\SessionService;
 
 class HomeController
 {
 
     private SessionService $sessionService;
+    private PostService $postService;
 
     public function __construct()
     {
@@ -21,6 +27,11 @@ class HomeController
         $sessionRepository = new SessionRepository($connection);
         $userRepository = new UserRepository($connection);
         $this->sessionService = new SessionService($sessionRepository, $userRepository);
+
+        $postRepository = new PostRepository($connection);
+        $categoryRepository = new CategoryRepository($connection);
+        $postImagesRepository = new PostImagesRepository($connection);
+        $this->postService = new PostService($postRepository,$categoryRepository,$postImagesRepository);
     }
 
     function index() : void
@@ -59,20 +70,39 @@ class HomeController
         View::render('Home/upload', model: $model);
     }
 
-    function postUpload():void{
+    function postUpload(): void
+    {
         $user = $this->sessionService->current();
 
-        try {
-//            service upload postingan
+        $request = new UserUploadPostRequest();
+        $request->title = $_POST["title"];
+        $request->description = $_POST["description"];
+        $request->location = $_POST["location"];
+        $request->postDate = new \DateTime($_POST["postDate"]);
+        $request->categoryId = $_POST["categoryId"];
+        $request->userId = $user->id;
 
-            Flasher::setFlash("success","Postingan Berhasil diupload");
-            View::redirect("/");
-        }catch (ValidationException $err){
-            Flasher::setFlash("danger",$err->getMessage(),"danger");
-            View::redirect('Home/upload');
+        // Menangkap file upload dari $_FILES, misalnya dari input "photos[]"
+        if (isset($_FILES['photos'])) {
+            $request->photos = $_FILES['photos'];
+        } else {
+            $request->photos = [];
         }
 
+        try {
+            // Panggil service upload postingan
+            $this->postService->upload($request);
+
+            // Notifikasi sukses dan redirect
+            Flasher::setFlash("success", "Postingan berhasil diupload");
+            View::redirect("/");
+        } catch (ValidationException $err) {
+            // Notifikasi error dan redirect ke halaman upload lagi
+            Flasher::setFlash("danger", $err->getMessage(), "danger");
+            View::redirect('Home/upload');
+        }
     }
+
 
     function postDelete():void{
 

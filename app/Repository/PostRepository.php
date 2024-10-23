@@ -22,6 +22,8 @@ class PostRepository
             $post->location,
             $post->userId,
             $post->categoryId]);
+        $lastInsertId = $this->connection->lastInsertId();
+        $post->id = $lastInsertId;
         return $post;
     }
 
