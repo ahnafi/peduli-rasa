@@ -10,7 +10,7 @@ function getDatabaseConfig(): array
                 "password" => ""
             ],
             "prod" => [
-                "url" => "mysql:host=localhost:3306;dbname=php_login_management",
+                "url" => "mysql:host=localhost:3306;dbname=peduli_rasa",
                 "username" => "root",
                 "password" => ""
             ]

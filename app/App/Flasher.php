@@ -1,6 +1,6 @@
 <?php
 
-namespace MoView\App;
+namespace PeduliRasa\App;
 
 class Flasher
 {

@@ -3,6 +3,7 @@
 namespace PeduliRasa\Repository;
 
 use PeduliRasa\Domain\User;
+use PeduliRasa\Exception\ValidationException;
 
 class UserRepository
 {
@@ -15,33 +16,41 @@ class UserRepository
 
     public function save(User $user): User
     {
-        $statement = $this->connection->prepare("INSERT INTO users(id, name, password) VALUES (?, ?, ?)");
+        $statement = $this->connection->prepare("INSERT INTO users(username, email, password,phone_number) VALUES (?, ?, ?, ?)");
         $statement->execute([
-            $user->id, $user->name, $user->password
+            $user->username,$user->email, $user->password,$user->phoneNumber
         ]);
         return $user;
     }
 
     public function update(User $user): User
     {
-        $statement = $this->connection->prepare("UPDATE users SET name = ?, password = ? WHERE id = ?");
+        $statement = $this->connection->prepare("UPDATE users SET username = ?, password = ? ,phone_number = ?,profile_photo = ? WHERE user_id = ?");
         $statement->execute([
-            $user->name, $user->password, $user->id
+            $user->username, $user->password,$user->phoneNumber,$user->profilePhoto, $user->id
         ]);
         return $user;
     }
 
-    public function findById(string $id): ?User
+    public function findUserByField(string $field, string $value): ?User
     {
-        $statement = $this->connection->prepare("SELECT id, name, password FROM users WHERE id = ?");
-        $statement->execute([$id]);
+        // Pastikan hanya field yang valid yang digunakan
+        if (!in_array($field, ['user_id', 'email'])) {
+            throw new ValidationException("Field tidak valid untuk pencarian user");
+        }
+
+        $statement = $this->connection->prepare("SELECT user_id, username, email, password, phone_number, profile_photo FROM users WHERE $field = ?");
+        $statement->execute([$value]);
 
         try {
             if ($row = $statement->fetch()) {
                 $user = new User();
-                $user->id = $row['id'];
-                $user->name = $row['name'];
+                $user->id = $row['user_id'];
+                $user->username = $row['username'];
+                $user->email = $row['email'];
                 $user->password = $row['password'];
+                $user->phoneNumber = $row['phone_number'];
+                $user->profilePhoto = $row['profile_photo'];
                 return $user;
             } else {
                 return null;

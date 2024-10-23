@@ -1,6 +1,4 @@
-
 <?php
-
 namespace PeduliRasa\Middleware;
 
 interface Middleware

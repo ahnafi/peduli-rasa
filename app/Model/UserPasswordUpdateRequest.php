@@ -4,7 +4,7 @@ namespace PeduliRasa\Model;
 
 class UserPasswordUpdateRequest
 {
-    public ?string $id = null;
+    public ?string $email = null;
     public ?string $oldPassword = null;
     public ?string $newPassword = null;
 }

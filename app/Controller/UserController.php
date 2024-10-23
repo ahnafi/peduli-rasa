@@ -2,6 +2,7 @@
 
 namespace PeduliRasa\Controller;
 
+use PeduliRasa\App\Flasher;
 use PeduliRasa\App\View;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Exception\ValidationException;
@@ -29,42 +30,41 @@ class UserController
         $this->sessionService = new SessionService($sessionRepository, $userRepository);
     }
 
-    public function register()
+    public function register() : void
     {
         View::render('User/register', [
             'title' => 'Register new User'
         ]);
     }
 
-    public function postRegister()
+    public function postRegister() : void
     {
         $request = new UserRegisterRequest();
-        $request->id = $_POST['id'];
-        $request->name = $_POST['name'];
+        $request->email = $_POST['email'];
+        $request->username = $_POST['username'];
+        $request->phoneNumber = $_POST['phoneNumber'];
         $request->password = $_POST['password'];
 
         try {
             $this->userService->register($request);
             View::redirect('/users/login');
         } catch (ValidationException $exception) {
-            View::render('User/register', [
-                'title' => 'Register new User',
-                'error' => $exception->getMessage()
-            ]);
+            Flasher::setFlash('danger', $exception->getMessage(),"danger");
+            View::redirect('/users/register');
         }
     }
 
-    public function login()
+    public function login():void
     {
         View::render('User/login', [
             "title" => "Login user"
         ]);
     }
 
-    public function postLogin()
+    public function postLogin():void
     {
         $request = new UserLoginRequest();
-        $request->id = $_POST['id'];
+        $request->email = $_POST['email'];
         $request->password = $_POST['password'];
 
         try {
@@ -72,20 +72,18 @@ class UserController
             $this->sessionService->create($response->user->id);
             View::redirect('/');
         } catch (ValidationException $exception) {
-            View::render('User/login', [
-                'title' => 'Login user',
-                'error' => $exception->getMessage()
-            ]);
+            Flasher::setFlash('danger', $exception->getMessage(),"danger");
+            View::redirect('/users/login');
         }
     }
 
-    public function logout()
+    public function logout():void
     {
         $this->sessionService->destroy();
         View::redirect("/");
     }
 
-    public function updateProfile()
+    public function updateProfile():void
     {
         $user = $this->sessionService->current();
 
@@ -93,62 +91,83 @@ class UserController
             "title" => "Update user profile",
             "user" => [
                 "id" => $user->id,
-                "name" => $user->name
-            ]
+                "email" => $user->email,
+                "username" => $user->username,
+                "phoneNumber" => $user->phoneNumber,
+                "profilePhoto"=> $user->profilePhoto
+            ],
         ]);
     }
 
-    public function postUpdateProfile()
+    public function postUpdateProfile(): void
     {
         $user = $this->sessionService->current();
 
         $request = new UserProfileUpdateRequest();
-        $request->id = $user->id;
-        $request->name = $_POST['name'];
+        $request->email = $user->email;
+        $request->username = $_POST['username'];
+        $request->phoneNumber = $_POST['phoneNumber'];
+
+        // Tangkap file upload dari $_FILES
+        if (isset($_FILES['profilePhoto']) && $_FILES['profilePhoto']['error'] == UPLOAD_ERR_OK) {
+            $request->profilePhoto = $_FILES['profilePhoto'];
+        } else {
+            $request->profilePhoto = null; // Jika tidak ada file yang di-upload
+        }
 
         try {
             $this->userService->updateProfile($request);
+            Flasher::setFlash('success', "Profile berhasil diupdate");
             View::redirect('/');
         } catch (ValidationException $exception) {
+            Flasher::setFlash('danger', $exception->getMessage(), "danger");
             View::render('User/profile', [
                 "title" => "Update user profile",
-                "error" => $exception->getMessage(),
                 "user" => [
                     "id" => $user->id,
-                    "name" => $_POST['name']
+                    "email" => $user->email,
+                    "profilePhoto"=> $user->profilePhoto,
+                    "username" => $_POST['username'],
+                    "phoneNumber" => $_POST['phoneNumber'],
                 ]
             ]);
         }
     }
 
-    public function updatePassword()
+
+    public function updatePassword():void
     {
         $user = $this->sessionService->current();
         View::render('User/password', [
             "title" => "Update user password",
             "user" => [
-                "id" => $user->id
+                "id" => $user->id,
+                "email" => $user->email,
+                "username" => $user->username,
             ]
         ]);
     }
 
-    public function postUpdatePassword()
+    public function postUpdatePassword():void
     {
         $user = $this->sessionService->current();
         $request = new UserPasswordUpdateRequest();
-        $request->id = $user->id;
+        $request->email = $user->email;
         $request->oldPassword = $_POST['oldPassword'];
         $request->newPassword = $_POST['newPassword'];
 
         try {
             $this->userService->updatePassword($request);
+            Flasher::setFlash('success', "Password berhasil diupdate");
             View::redirect('/');
         } catch (ValidationException $exception) {
+            Flasher::setFlash('danger', $exception->getMessage(), "danger");
             View::render('User/password', [
                 "title" => "Update user password",
-                "error" => $exception->getMessage(),
                 "user" => [
-                    "id" => $user->id
+                    "id" => $user->id,
+                    "email" => $user->email,
+                    "username" => $user->username,
                 ]
             ]);
         }
