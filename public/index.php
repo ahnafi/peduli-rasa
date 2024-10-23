@@ -25,8 +25,8 @@ Router::add("POST","/ayo-berbagi", HomeController::class,"postUpload",[MustLogin
 Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail");
 Router::add("GET","/post/search", HomeController::class,"search");
 Router::add("POST","/post/delete", HomeController::class,"postDelete",[MustLoginMiddleware::class]);
-Router::add("GET","/post/update", HomeController::class,"update",[MustLoginMiddleware::class]);
-Router::add("POST","/post/update/([0-9]*)", HomeController::class,"postUpdate",[MustLoginMiddleware::class]);
+Router::add("GET","/post/update/([0-9]*)", HomeController::class,"update",[MustLoginMiddleware::class]);
+Router::add("POST","/post/update", HomeController::class,"postUpdate",[MustLoginMiddleware::class]);
 
 // User Controller
 Router::add('GET', '/users/register', UserController::class, 'register', [MustNotLoginMiddleware::class]);

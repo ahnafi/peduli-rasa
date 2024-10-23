@@ -6,6 +6,8 @@ use PeduliRasa\App\Flasher;
 use PeduliRasa\App\View;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Exception\ValidationException;
+use PeduliRasa\Model\GetPostRequest;
+use PeduliRasa\Model\UserDeletePostRequest;
 use PeduliRasa\Model\UserUpdatePostRequest;
 use PeduliRasa\Model\UserUploadPostRequest;
 use PeduliRasa\Repository\CategoryRepository;
@@ -33,10 +35,10 @@ class HomeController
         $categoryRepository = new CategoryRepository($connection);
         $postImagesRepository = new PostImagesRepository($connection);
         $userRepository = new UserRepository($connection);
-        $this->postService = new PostService($postRepository,$categoryRepository,$postImagesRepository,$userRepository);
+        $this->postService = new PostService($postRepository, $categoryRepository, $postImagesRepository, $userRepository);
     }
 
-    function index() : void
+    function index(): void
     {
         $user = $this->sessionService->current();
 
@@ -55,7 +57,8 @@ class HomeController
         View::render('Home/index', model: $model);
     }
 
-    function upload():void{
+    function upload(): void
+    {
         $user = $this->sessionService->current();
 
         $model = [
@@ -99,18 +102,108 @@ class HomeController
             Flasher::setFlash("success", "Postingan berhasil diupload");
             View::redirect("/");
         } catch (ValidationException $err) {
-            // Notifikasi error dan redirect ke halaman upload lagi
-            Flasher::setFlash("danger", $err->getMessage(), "danger");
+            Flasher::setFlash("Error", $err->getMessage(), "danger");
             View::redirect('Home/upload');
         }
     }
 
-    function update($postId):void{
+    public function update($postId): void
+    {
         $user = $this->sessionService->current();
         $model = [
             "title" => "Update Postingan",
+            "user" => [
+                "id" => $user->id,
+                "username" => $user->username,
+                "email" => $user->email,
+            ]
         ];
 
+        $req = new GetPostRequest();
+        $req->postId = $postId;
+
+        try {
+            // Ambil post dan gambar dari service
+            $res = $this->postService->getPost($req);
+            // Jika post ditemukan, cek apakah user yang mengakses adalah pemilik post
+            if ($res->post->userId !== $user->id) {
+                Flasher::setFlash("Ups", "You are not allowed to update this post", "danger");
+                View::redirect('/');
+                return;
+            }
+
+            // Isi model dengan data post dan gambar
+            $model["post"] = [
+                "id" => $res->post->id,
+                "title" => $res->post->title,
+                "description" => $res->post->description,
+                "location" => $res->post->location,
+                "postDate" => $res->post->postDate->format('Y-m-d H:i:s'),
+                "categoryId" => $res->post->categoryId,
+                "userId" => $res->post->userId,
+                "images" => $res->images,
+            ];
+
+            // Render view untuk halaman update
+            View::render('Home/update', $model);
+        } catch (ValidationException $exception) {
+            Flasher::setFlash("Ups", $exception->getMessage(), "danger");
+            View::redirect('/');
+        }
+    }
+
+    function postUpdate(): void
+    {
+        $user = $this->sessionService->current();
+
+        $req = new UserUpdatePostRequest();
+        $req->postId = $_POST["postId"];
+        $req->title = $_POST["title"];
+        $req->description = $_POST["description"];
+        $req->location = $_POST["location"];
+        $req->postDate = new \DateTime($_POST["postDate"]);
+        $req->categoryId = $_POST["categoryId"];
+        $req->userEmail = $user->email;
+
+        try {
+            $this->postService->update($req);
+            Flasher::setFlash("success", "Postingan berhasil diupdate");
+            View::redirect("/");
+        } catch (ValidationException $err) {
+            Flasher::setFlash("Error", $err->getMessage(), "danger");
+            View::redirect('/post/update/' . $req->postId);
+        }
+    }
+
+    function postDelete(): void
+    {
+        $user = $this->sessionService->current();
+
+        $req = new UserDeletePostRequest();
+        $req->postId = $_POST["postId"];
+        $req->userEmail = $user->email;
+
+        try {
+            $this->postService->delete($req);
+            Flasher::setFlash("success", "Postingan berhasil dihapus");
+            View::redirect("/");
+        } catch (ValidationException $exception) {
+            Flasher::setFlash("Ups", $exception->getMessage(), "danger");
+            View::redirect('/');
+        }
+    }
+
+    function search(): void
+    {
+
+    }
+
+    function detail($id): void
+    {
+        $user = $this->sessionService->current();
+        $model = [
+            "title" => "Detail Postingan",
+        ];
         if ($user != null) {
             $model["user"] = [
                 "id" => $user->id,
@@ -119,55 +212,28 @@ class HomeController
             ];
         }
 
-        try {
-        $req = new UserUpdatePostRequest();
-        $req->userEmail = $user->email;
-        $req->postId = $postId;
-
-        $res = $this->postService->getPostUpdate($req);
-
-        $model["post"] = [
-            "id" => $res->post->id,
-            "title" => $res->post->title,
-            "description" => $res->post->description,
-            "location" => $res->post->location,
-            "postDate" => $res->post->postDate,
-            "categoryId" => $res->post->categoryId,
-            "userId" => $res->post->userId,
-            "images" => $res->images,
-        ];
-
-        View::render('Home/update', model: $model);
-        }catch (ValidationException $err) {
-            Flasher::setFlash("danger", $err->getMessage(), "danger");
-            View::redirect('/');
-        }
-    }
-
-    function postUpdate(): void{
-        $user = $this->sessionService->current();
+        $req = new GetPostRequest();
+        $req->postId = $id;
 
         try {
+            $res = $this->postService->getPost($req);
+            $model["post"] = [
+                "id" => $res->post->id,
+                "title" => $res->post->title,
+                "description" => $res->post->description,
+                "location" => $res->post->location,
+                "postDate" => $res->post->postDate->format('Y-m-d H:i:s'),
+                "categoryId" => $res->post->categoryId,
+                "userId" => $res->post->userId,
+                "images" => $res->images,
+            ];
 
-
-
-        }catch (ValidationException $err) {
-            Flasher::setFlash("danger", $err->getMessage(), "danger");
+            View::render('Home/detail', model: $model);
+        } catch (ValidationException $exception) {
+            Flasher::setFlash("Ups", $exception->getMessage(), "danger");
             View::redirect('/');
+            return;
         }
-
-    }
-
-    function postDelete():void{
-
-    }
-
-    function search():void{
-
-    }
-
-    function detail($id):void{
-
     }
 
 }

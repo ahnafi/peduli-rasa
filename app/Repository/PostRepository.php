@@ -29,7 +29,7 @@ class PostRepository
 
     public function findById(int $id): ?Post
     {
-        $statement = $this->connection->prepare("SELECT post_id,title,description,post_date,location,user_id,category_id FROM posts WHERE id = ?");
+        $statement = $this->connection->prepare("SELECT post_id,title,description,post_date,location,user_id,category_id FROM posts WHERE post_id = ?");
         $statement->execute([$id]);
 
         try {
@@ -85,14 +85,14 @@ class PostRepository
 
     public function update(Post $post): Post
     {
-        $statement = $this->connection->prepare("UPDATE posts SET title = ? ,description = ? , post_date = ? ,location = ? ,category_id =? WHERE id = ? ");
+        $statement = $this->connection->prepare("UPDATE posts SET title = ? ,description = ? , post_date = ? ,location = ? ,category_id =? WHERE post_id = ? ");
         $statement->execute([$post->title, $post->description, $post->postDate, $post->location, $post->categoryId, $post->id]);
         return $post;
     }
 
     public function delete(int $id): void
     {
-        $statement = $this->connection->prepare("DELETE FROM posts WHERE id = ?");
+        $statement = $this->connection->prepare("DELETE FROM posts WHERE post_id = ?");
         $statement->execute([$id]);
     }
 
