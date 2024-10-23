@@ -42,7 +42,7 @@ CREATE TABLE `posts` (
   `post_id` int NOT NULL,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `description` text NOT NULL,
-  `date` date NOT NULL,
+  `post_date` datetime NOT NULL,
   `location` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int NOT NULL,

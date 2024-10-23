@@ -19,11 +19,12 @@ date_default_timezone_set("Asia/jakarta");
 if(!session_id()) session_start();
 
 // Home Controller
-Router::add('GET', '/', HomeController::class, 'index', []);
-Router::add("GET","/ayo-berbagi", HomeController::class,"post",[MustNotLoginMiddleware::class]);
+Router::add('GET', '/', HomeController::class, 'index');
+Router::add("GET","/ayo-berbagi", HomeController::class,"upload",[MustNotLoginMiddleware::class]);
 Router::add("POST","/ayo-berbagi", HomeController::class,"postUpload",[MustNotLoginMiddleware::class]);
 Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail",[MustNotLoginMiddleware::class]);
-Router::add("POST","/post/detele", HomeController::class,"postDelete",[MustNotLoginMiddleware::class]);
+Router::add("GET","/post/search", HomeController::class,"search",[MustNotLoginMiddleware::class]);
+Router::add("POST","/post/delete", HomeController::class,"postDelete",[MustNotLoginMiddleware::class]);
 
 // User Controller
 Router::add('GET', '/users/register', UserController::class, 'register', [MustNotLoginMiddleware::class]);
