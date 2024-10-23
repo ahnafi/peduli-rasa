@@ -6,6 +6,7 @@ use PeduliRasa\App\Flasher;
 use PeduliRasa\App\View;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Exception\ValidationException;
+use PeduliRasa\Model\UserUpdatePostRequest;
 use PeduliRasa\Model\UserUploadPostRequest;
 use PeduliRasa\Repository\CategoryRepository;
 use PeduliRasa\Repository\PostImagesRepository;
@@ -31,7 +32,8 @@ class HomeController
         $postRepository = new PostRepository($connection);
         $categoryRepository = new CategoryRepository($connection);
         $postImagesRepository = new PostImagesRepository($connection);
-        $this->postService = new PostService($postRepository,$categoryRepository,$postImagesRepository);
+        $userRepository = new UserRepository($connection);
+        $this->postService = new PostService($postRepository,$categoryRepository,$postImagesRepository,$userRepository);
     }
 
     function index() : void
@@ -103,6 +105,58 @@ class HomeController
         }
     }
 
+    function update($postId):void{
+        $user = $this->sessionService->current();
+        $model = [
+            "title" => "Update Postingan",
+        ];
+
+        if ($user != null) {
+            $model["user"] = [
+                "id" => $user->id,
+                "username" => $user->username,
+                "email" => $user->email,
+            ];
+        }
+
+        try {
+        $req = new UserUpdatePostRequest();
+        $req->userEmail = $user->email;
+        $req->postId = $postId;
+
+        $res = $this->postService->getPostUpdate($req);
+
+        $model["post"] = [
+            "id" => $res->post->id,
+            "title" => $res->post->title,
+            "description" => $res->post->description,
+            "location" => $res->post->location,
+            "postDate" => $res->post->postDate,
+            "categoryId" => $res->post->categoryId,
+            "userId" => $res->post->userId,
+            "images" => $res->images,
+        ];
+
+        View::render('Home/update', model: $model);
+        }catch (ValidationException $err) {
+            Flasher::setFlash("danger", $err->getMessage(), "danger");
+            View::redirect('/');
+        }
+    }
+
+    function postUpdate(): void{
+        $user = $this->sessionService->current();
+
+        try {
+
+
+
+        }catch (ValidationException $err) {
+            Flasher::setFlash("danger", $err->getMessage(), "danger");
+            View::redirect('/');
+        }
+
+    }
 
     function postDelete():void{
 

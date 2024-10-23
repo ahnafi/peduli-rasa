@@ -2,14 +2,18 @@
 
 namespace PeduliRasa\Service;
 
+use http\Env\Request;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Domain\Post;
 use PeduliRasa\Domain\PostImage;
 use PeduliRasa\Exception\ValidationException;
+use PeduliRasa\Model\UserUpdatePostRequest;
+use PeduliRasa\Model\UserUpdatePostResponse;
 use PeduliRasa\Model\UserUploadPostRequest;
 use PeduliRasa\Repository\CategoryRepository;
 use PeduliRasa\Repository\PostImagesRepository;
 use PeduliRasa\Repository\PostRepository;
+use PeduliRasa\Repository\UserRepository;
 
 class PostService
 {
@@ -17,12 +21,14 @@ class PostService
     private PostRepository $postRepository;
     private CategoryRepository $categoryRepository;
     private PostImagesRepository $postImagesRepository;
+    private UserRepository $userRepository;
 
-    public function __construct(PostRepository $postRepository, CategoryRepository $categoryRepository, PostImagesRepository $postImagesRepository)
+    public function __construct(PostRepository $postRepository, CategoryRepository $categoryRepository, PostImagesRepository $postImagesRepository, UserRepository $userRepository)
     {
         $this->postImagesRepository = $postImagesRepository;
         $this->categoryRepository = $categoryRepository;
         $this->postRepository = $postRepository;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -131,4 +137,46 @@ class PostService
         }
     }
 
+    public function getPostUpdate(UserUpdatePostRequest $request): UserUpdatePostResponse
+    {
+        $this->ValidateUserUpdatePostRequest($request);
+
+        try {
+            $user = $this->userRepository->findUserByField("email", $request->userEmail);
+
+            if ($user == null) {
+                throw new ValidationException("User not found");
+            }
+
+            $post = $this->postRepository->findById($request->postId);
+
+            if ($post == null) {
+                throw new ValidationException("Post not found");
+            }
+
+            if ($post->userId != $user->id) {
+                throw new ValidationException("User not allowed to update post");
+            }
+
+            $images = $this->postImagesRepository->findByPostId($post->id);
+
+            $response = new UserUpdatePostResponse();
+            $response->post = $post;
+            $response->images = $images;
+            return $response;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    private function ValidateUserUpdatePostRequest(UserUpdatePostRequest $request): void
+    {
+        if ($request->userEmail != null || $request->postId != null || trim($request->userEmail) === '') {
+            throw new ValidationException("You can't edit post");
+        }
+    }
+
+    public function update() {
+
+    }
 }

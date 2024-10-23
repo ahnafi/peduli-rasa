@@ -20,11 +20,13 @@ if(!session_id()) session_start();
 
 // Home Controller
 Router::add('GET', '/', HomeController::class, 'index');
-Router::add("GET","/ayo-berbagi", HomeController::class,"upload",[MustNotLoginMiddleware::class]);
-Router::add("POST","/ayo-berbagi", HomeController::class,"postUpload",[MustNotLoginMiddleware::class]);
-Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail",[MustNotLoginMiddleware::class]);
-Router::add("GET","/post/search", HomeController::class,"search",[MustNotLoginMiddleware::class]);
-Router::add("POST","/post/delete", HomeController::class,"postDelete",[MustNotLoginMiddleware::class]);
+Router::add("GET","/ayo-berbagi", HomeController::class,"upload",[MustLoginMiddleware::class]);
+Router::add("POST","/ayo-berbagi", HomeController::class,"postUpload",[MustLoginMiddleware::class]);
+Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail");
+Router::add("GET","/post/search", HomeController::class,"search");
+Router::add("POST","/post/delete", HomeController::class,"postDelete",[MustLoginMiddleware::class]);
+Router::add("GET","/post/update", HomeController::class,"update",[MustLoginMiddleware::class]);
+Router::add("POST","/post/update/([0-9]*)", HomeController::class,"postUpdate",[MustLoginMiddleware::class]);
 
 // User Controller
 Router::add('GET', '/users/register', UserController::class, 'register', [MustNotLoginMiddleware::class]);
