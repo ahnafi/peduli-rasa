@@ -2,7 +2,7 @@
 
 namespace PeduliRasa\Exception;
 
-class VaidationException extends Exception
+class ValidationException extends Exception
 {
 
 }
