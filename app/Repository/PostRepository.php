@@ -108,7 +108,6 @@ class PostRepository
         }
     }
 
-
     public function update(Post $post): Post
     {
         $statement = $this->connection->prepare("UPDATE posts SET title = ? ,description = ? , post_date = ? ,location = ? ,category_id =? WHERE post_id = ? ");
