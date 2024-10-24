@@ -88,24 +88,20 @@ class PostRepository
 
         $statement->execute();
 
-        try {
-            $posts = [];
-            while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-                $post = new Post();
-                $post->id = $row['post_id'];
-                $post->title = $row['title'];
-                $post->description = $row['description'];
-                $post->postDate = new \DateTime($row['post_date']);
-                $post->location = $row['location'];
-                $post->userId = $row['user_id'];
-                $post->categoryId = $row['category_id'];
-                $posts[] = $post;
-            }
-
-            return $posts;
-        } finally {
-            $statement->closeCursor();
+        $posts = [];
+        while ($row = $statement->fetchAll(\PDO::FETCH_ASSOC)) {
+            $post = new Post();
+            $post->id = $row['post_id'];
+            $post->title = $row['title'];
+            $post->description = $row['description'];
+            $post->postDate = new \DateTime($row['post_date']);
+            $post->location = $row['location'];
+            $post->userId = $row['user_id'];
+            $post->categoryId = $row['category_id'];
+            $posts[] = $post;
         }
+
+        return $posts;
     }
 
     public function update(Post $post): Post

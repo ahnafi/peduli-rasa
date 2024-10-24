@@ -307,6 +307,16 @@ class PostService
                 $request->page
             );
 
+            foreach ($posts as $post) {
+                $images = $this->postImagesRepository->findByPostId($post->id);
+
+                if (!empty($images)) {
+                    $post->bannerImage = $images[0]->imageName;
+                } else {
+                    $post->bannerImage = null;
+                }
+            }
+
             $res = new SearchPostResponse();
             $res->posts = $posts;
 
@@ -315,6 +325,7 @@ class PostService
             throw $e;
         }
     }
+
 
     private function ValidateSearchPostRequest(SearchPostRequest $request): void
     {
