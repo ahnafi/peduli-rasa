@@ -75,12 +75,18 @@ class PostRepository
 
         // Tambahkan limit dan offset untuk pagination
         $query .= " LIMIT ? OFFSET ?";
-        $params[] = $limit;
-        $params[] = $offset;
 
         // Eksekusi query
         $statement = $this->connection->prepare($query);
-        $statement->execute($params);
+
+        // Bind nilai limit dan offset secara eksplisit dengan tipe data integer
+        foreach ($params as $index => $param) {
+            $statement->bindValue($index + 1, $param); // Bind nilai lainnya
+        }
+        $statement->bindValue(count($params) + 1, $limit, \PDO::PARAM_INT);  // Bind limit sebagai integer
+        $statement->bindValue(count($params) + 2, $offset, \PDO::PARAM_INT); // Bind offset sebagai integer
+
+        $statement->execute();
 
         try {
             $posts = [];
@@ -101,6 +107,7 @@ class PostRepository
             $statement->closeCursor();
         }
     }
+
 
     public function update(Post $post): Post
     {

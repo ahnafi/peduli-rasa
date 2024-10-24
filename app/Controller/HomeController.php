@@ -211,7 +211,6 @@ class HomeController
             View::redirect('/');
         }
     }
-
     function search(): void
     {
         $user = $this->sessionService->current();
@@ -231,9 +230,15 @@ class HomeController
         // Ambil parameter pencarian dari request
         $request = new SearchPostRequest();
         $request->title = $_GET['title'] ?? null;
-        $request->categories = $_GET['categories'] ?? [];
-        $request->page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
+        // Konversi string '1,2,3' menjadi array [1, 2, 3]
+        if (isset($_GET['categories']) && !empty($_GET['categories'])) {
+            $request->categories = array_map('intval', explode(',', $_GET['categories']));
+        } else {
+            $request->categories = [];
+        }
+
+        $request->page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         try {
             $response = $this->postService->search($request);
 
@@ -245,6 +250,7 @@ class HomeController
             View::redirect('/');
         }
     }
+
 
     function detail($id): void
     {
