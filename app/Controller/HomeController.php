@@ -7,6 +7,7 @@ use PeduliRasa\App\View;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Exception\ValidationException;
 use PeduliRasa\Model\GetPostRequest;
+use PeduliRasa\Model\SearchPostRequest;
 use PeduliRasa\Model\UserDeletePostRequest;
 use PeduliRasa\Model\UserUpdatePostRequest;
 use PeduliRasa\Model\UserUploadPostRequest;
@@ -54,8 +55,26 @@ class HomeController
             ];
         }
 
+        // Ambil data makanan dan minuman (kategori 1, 2, 3)
+        $foodAndDrinkRequest = new SearchPostRequest();
+        $foodAndDrinkRequest->categories = [1, 2, 3];
+        $foodAndDrinkRequest->page = 1;
+        $foodAndDrink = $this->postService->search($foodAndDrinkRequest)->posts;
+
+        // Ambil data kegiatan (kategori 4, 5, 6)
+        $activityRequest = new SearchPostRequest();
+        $activityRequest->categories = [4, 5, 6];
+        $activityRequest->page = 1;
+        $activity = $this->postService->search($activityRequest)->posts;
+
+        // Set hasil pencarian ke model
+        $model["foodAndDrink"] = $foodAndDrink;
+        $model["activity"] = $activity;
+
+        // Render view
         View::render('Home/index', model: $model);
     }
+
 
     function upload(): void
     {
@@ -195,7 +214,36 @@ class HomeController
 
     function search(): void
     {
+        $user = $this->sessionService->current();
 
+        $model = [
+            "title" => "Cari Postingan",
+        ];
+
+        if ($user != null) {
+            $model["user"] = [
+                "id" => $user->id,
+                "username" => $user->username,
+                "email" => $user->email,
+            ];
+        }
+
+        // Ambil parameter pencarian dari request
+        $request = new SearchPostRequest();
+        $request->title = $_GET['title'] ?? null;
+        $request->categories = $_GET['categories'] ?? [];
+        $request->page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        try {
+            $response = $this->postService->search($request);
+
+            $model["posts"] = $response->posts;
+
+            View::render('Home/search', model: $model);
+        } catch (ValidationException $e) {
+            Flasher::setFlash("danger", $e->getMessage(), "danger");
+            View::redirect('/');
+        }
     }
 
     function detail($id): void

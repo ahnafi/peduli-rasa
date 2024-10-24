@@ -8,6 +8,8 @@ use PeduliRasa\Domain\PostImage;
 use PeduliRasa\Exception\ValidationException;
 use PeduliRasa\Model\GetPostRequest;
 use PeduliRasa\Model\GetPostResponse;
+use PeduliRasa\Model\SearchPostRequest;
+use PeduliRasa\Model\SearchPostResponse;
 use PeduliRasa\Model\UserDeletePostRequest;
 use PeduliRasa\Model\UserUpdatePostRequest;
 use PeduliRasa\Model\UserUpdatePostResponse;
@@ -141,21 +143,16 @@ class PostService
 
     public function getPost(GetPostRequest $request): GetPostResponse
     {
-        // Validasi request
         $this->ValidateGetPostRequest($request);
 
-        // Ambil post berdasarkan postId
         $post = $this->postRepository->findById($request->postId);
 
-        // Jika post tidak ditemukan, lempar error
         if ($post == null) {
             throw new ValidationException("Post not found");
         }
 
-        // Ambil semua image yang berhubungan dengan post
         $images = $this->postImagesRepository->findByPostId($post->id);
 
-        // Buat response
         $response = new GetPostResponse();
         $response->post = $post;
         $response->images = $images;
@@ -245,32 +242,44 @@ class PostService
         }
     }
 
-    public function delete(UserDeletePostRequest $request):void {
+    public function delete(UserDeletePostRequest $request): void
+    {
         $this->ValidateDeletePostRequest($request);
 
-        try{
+        try {
             Database::beginTransaction();
 
             $user = $this->userRepository->findUserByField("email", $request->userEmail);
-
             if ($user == null) {
                 throw new ValidationException("User not found");
             }
 
             $post = $this->postRepository->findById($request->postId);
-
             if ($post == null) {
                 throw new ValidationException("Post not found");
             }
 
-            if($post->userId != $user->id){
-                throw new ValidationException("User not allowed to delete post");
+            if ($post->userId != $user->id) {
+                throw new ValidationException("User not allowed to delete this post");
+            }
+
+            $images = $this->postImagesRepository->findByPostId($post->id);
+            $dirFile = __DIR__ . "/../../public/images/posts/";
+
+            foreach ($images as $image) {
+                $pathImage = $dirFile . $image->imageName;
+
+                if (file_exists($pathImage)) {
+                    unlink($pathImage);
+                }
+
+                $this->postImagesRepository->delete($image->id);
             }
 
             $this->postRepository->delete($post->id);
 
             Database::commitTransaction();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             Database::rollbackTransaction();
             throw $e;
         }
@@ -278,8 +287,40 @@ class PostService
 
     private function ValidateDeletePostRequest(UserDeletePostRequest $request): void
     {
-        if($request->postId == null || trim($request->postId) === '' || $request->userEmail == null || trim($request->userEmail) === ''){
-            throw new ValidationException("Post ID and user Email is required");
+        if ($request->postId == null || trim($request->postId) === '') {
+            throw new ValidationException("Post ID is required");
+        }
+
+        if ($request->userEmail == null || trim($request->userEmail) === '') {
+            throw new ValidationException("User email is required");
         }
     }
+
+    public function search(SearchPostRequest $request): SearchPostResponse
+    {
+        $this->ValidateSearchPostRequest($request);
+
+        try {
+            $posts = $this->postRepository->search(
+                $request->title,
+                $request->categories,
+                $request->page
+            );
+
+            $res = new SearchPostResponse();
+            $res->posts = $posts;
+
+            return $res;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    private function ValidateSearchPostRequest(SearchPostRequest $request): void
+    {
+        if ($request->title == null && empty($request->categories)) {
+            throw new ValidationException("Title or Category is required");
+        }
+    }
+
 }
