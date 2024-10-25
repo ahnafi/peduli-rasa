@@ -38,18 +38,19 @@ class PostService
 
     public function upload(UserUploadPostRequest $request): void
     {
+        // Validate the incoming request
         $this->ValidateUserUploadPostRequest($request);
 
         try {
             Database::beginTransaction();
 
-            // Pengecekan apakah kategori ada atau tidak
+            // Check if the category exists
             $category = $this->categoryRepository->find($request->categoryId);
-            if ($category == null) {
+            if ($category === null) {
                 throw new ValidationException("Category not found");
             }
 
-            // Simpan postingan dulu agar mendapatkan id post
+            // Create and save the post
             $post = new Post();
             $post->title = $request->title;
             $post->description = $request->description;
@@ -58,30 +59,25 @@ class PostService
             $post->userId = $request->userId;
             $post->categoryId = $request->categoryId;
 
-            $post = $this->postRepository->save($post); // Simpan posting dan dapatkan id
+            $post = $this->postRepository->save($post);
 
-            // Proses setiap foto dalam array photos
-            if ($request->photos !== null && count($request->photos) > 0) {
+            if (!empty($request->photos)) {
                 $uploadDir = __DIR__ . "/../../public/images/posts/";
 
-                foreach ($request->photos as $photo) {
-                    // Validasi dan simpan file foto
-                    $photoName = uniqid() . '-' . basename($photo['name']);
-                    $photoPath = $uploadDir . $photoName;
+                foreach ($request->photos["tmp_name"] as $index => $tmp) {
 
-                    if (move_uploaded_file($photo['tmp_name'], $photoPath)) {
-                        // Simpan nama file tiap foto ke database
+                    $extension = pathinfo($request->photos["name"][$index], PATHINFO_EXTENSION);
+                    $imgNames = uniqid() . "." . $extension;
+
+                    if (move_uploaded_file($tmp, $uploadDir . $imgNames)) {
                         $postImage = new PostImage();
                         $postImage->postId = $post->id;
-                        $postImage->imageName = $photoName;
-
+                        $postImage->imageName = $imgNames;
                         $this->postImagesRepository->save($postImage);
-                    } else {
-                        throw new ValidationException("Failed to upload image: " . $photo['name']);
                     }
                 }
-            }
 
+            }
             Database::commitTransaction();
         } catch (\Exception $e) {
             Database::rollbackTransaction();
@@ -121,22 +117,23 @@ class PostService
             throw new ValidationException("At least one photo is required");
         }
 
-        // Validasi tiap file foto
-        foreach ($request->photos as $photo) {
-            if ($photo['error'] !== UPLOAD_ERR_OK) {
-                throw new ValidationException("Error uploading file: " . $photo['name']);
+        foreach ($request->photos["error"] as $err) {
+            if ($err !== UPLOAD_ERR_OK) {
+                throw new ValidationException("Error uploading file");
             }
+        }
 
-            // Validasi tipe file (hanya izinkan jpg, png, jpeg)
+        foreach ($request->photos["type"] as $file) {
             $validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-            if (!in_array($photo['type'], $validTypes)) {
-                throw new ValidationException("Invalid file type for image: " . $photo['name']);
+            if (!in_array($file, $validTypes)) {
+                throw new ValidationException("Invalid file type");
             }
+        }
 
-            // Validasi ukuran file (misalnya maksimum 5MB)
-            $maxSize = 1 * 1024 * 1024; // 1MB
-            if ($photo['size'] > $maxSize) {
-                throw new ValidationException("File size exceeds limit for image: " . $photo['name']);
+        foreach ($request->photos["size"] as $file) {
+            $maxSize = 1024 * 1024;
+            if ($file > $maxSize) {
+                throw new ValidationException("File size is too large, maximum size is 1MB");
             }
         }
     }
@@ -151,11 +148,14 @@ class PostService
             throw new ValidationException("Post not found");
         }
 
+        $category = $this->categoryRepository->find($post->categoryId);
+
         $images = $this->postImagesRepository->findByPostId($post->id);
 
         $response = new GetPostResponse();
         $response->post = $post;
         $response->images = $images;
+        $response->category = $category->name;
 
         return $response;
     }

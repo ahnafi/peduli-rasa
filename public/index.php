@@ -20,6 +20,7 @@ if(!session_id()) session_start();
 
 // Home Controller
 Router::add('GET', '/', HomeController::class, 'index');
+Router::add('GET', '/tentang-kami', HomeController::class, 'about');
 Router::add("GET","/ayo-berbagi", HomeController::class,"upload",[MustLoginMiddleware::class]);
 Router::add("POST","/ayo-berbagi", HomeController::class,"postUpload",[MustLoginMiddleware::class]);
 Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail");
@@ -29,14 +30,14 @@ Router::add("GET","/post/update/([0-9]*)", HomeController::class,"update",[MustL
 Router::add("POST","/post/update", HomeController::class,"postUpdate",[MustLoginMiddleware::class]);
 
 // User Controller
-Router::add('GET', '/users/register', UserController::class, 'register', [MustNotLoginMiddleware::class]);
-Router::add('POST', '/users/register', UserController::class, 'postRegister', [MustNotLoginMiddleware::class]);
-Router::add('GET', '/users/login', UserController::class, 'login', [MustNotLoginMiddleware::class]);
-Router::add('POST', '/users/login', UserController::class, 'postLogin', [MustNotLoginMiddleware::class]);
-Router::add('GET', '/users/logout', UserController::class, 'logout', [MustLoginMiddleware::class]);
-Router::add('GET', '/users/profile', UserController::class, 'updateProfile', [MustLoginMiddleware::class]);
-Router::add('POST', '/users/profile', UserController::class, 'postUpdateProfile', [MustLoginMiddleware::class]);
-Router::add('GET', '/users/password', UserController::class, 'updatePassword', [MustLoginMiddleware::class]);
-Router::add('POST', '/users/password', UserController::class, 'postUpdatePassword', [MustLoginMiddleware::class]);
+Router::add('GET', '/register', UserController::class, 'register', [MustNotLoginMiddleware::class]);
+Router::add('POST', '/register', UserController::class, 'postRegister', [MustNotLoginMiddleware::class]);
+Router::add('GET', '/login', UserController::class, 'login', [MustNotLoginMiddleware::class]);
+Router::add('POST', '/login', UserController::class, 'postLogin', [MustNotLoginMiddleware::class]);
+Router::add('GET', '/logout', UserController::class, 'logout', [MustLoginMiddleware::class]);
+Router::add('GET', '/profile', UserController::class, 'updateProfile', [MustLoginMiddleware::class]);
+Router::add('POST', '/profile', UserController::class, 'postUpdateProfile', [MustLoginMiddleware::class]);
+Router::add('GET', '/password', UserController::class, 'updatePassword', [MustLoginMiddleware::class]);
+Router::add('POST', '/password', UserController::class, 'postUpdatePassword', [MustLoginMiddleware::class]);
 
 Router::run();

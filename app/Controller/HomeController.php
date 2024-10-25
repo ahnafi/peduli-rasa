@@ -117,12 +117,11 @@ class HomeController
             // Panggil service upload postingan
             $this->postService->upload($request);
 
-            // Notifikasi sukses dan redirect
             Flasher::setFlash("success", "Postingan berhasil diupload");
             View::redirect("/");
         } catch (ValidationException $err) {
             Flasher::setFlash("Error", $err->getMessage(), "danger");
-            View::redirect('Home/upload');
+            View::redirect('/ayo-berbagi');
         }
     }
 
@@ -232,7 +231,7 @@ class HomeController
         $request->title = $_GET['title'] ?? null;
 
         // Konversi string '1,2,3' menjadi array [1, 2, 3]
-        if (isset($_GET['categories']) && !empty($_GET['categories'])) {
+        if (!empty($_GET['categories'])) {
             $request->categories = array_map('intval', explode(',', $_GET['categories']));
         } else {
             $request->categories = [];
@@ -263,6 +262,8 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
+                "profile_photo" => $user->profilePhoto,
+                "phone_number" => $user->phoneNumber
             ];
         }
 
@@ -277,7 +278,7 @@ class HomeController
                 "description" => $res->post->description,
                 "location" => $res->post->location,
                 "postDate" => $res->post->postDate->format('Y-m-d H:i:s'),
-                "categoryId" => $res->post->categoryId,
+                "category" => $res->category,
                 "userId" => $res->post->userId,
                 "images" => $res->images,
             ];
@@ -288,6 +289,26 @@ class HomeController
             View::redirect('/');
             return;
         }
+    }
+
+    function about (){
+        $user = $this->sessionService->current();
+
+        $model = [
+            "title" => "Tentang Kami",
+        ];
+
+        if ($user != null) {
+            $model["user"] = [
+                "id" => $user->id,
+                "username" => $user->username,
+                "email" => $user->email,
+                "profile_photo" => $user->profilePhoto,
+                "phone_number" => $user->phoneNumber
+            ];
+        }
+
+        View::render("Home/about", model: $model);
     }
 
 }

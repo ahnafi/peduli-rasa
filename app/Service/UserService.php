@@ -39,6 +39,7 @@ class UserService
             $user = new User();
             $user->email = $request->email;
             $user->username = $request->username;
+            $user->profilePhoto = "/images/profile/profile.svg";
             $user->phoneNumber = $request->phoneNumber;
             $user->password = password_hash($request->password, PASSWORD_DEFAULT);
 

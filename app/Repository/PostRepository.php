@@ -15,17 +15,21 @@ class PostRepository
 
     public function save(Post $post): Post
     {
-        $statement = $this->connection->prepare("INSERT INTO posts (title, description, post_date, location,user_id,category_id) VALUES (?,?,?,?,?,?)");
+        $postDate = $post->postDate->format('Y-m-d H:i:s');
+
+        $statement = $this->connection->prepare("INSERT INTO posts (title, description, post_date, location, user_id, category_id) VALUES (?, ?, ?, ?, ?, ?)");
         $statement->execute([$post->title,
             $post->description,
-            $post->postDate,
+            $postDate,
             $post->location,
             $post->userId,
             $post->categoryId]);
+
         $lastInsertId = $this->connection->lastInsertId();
         $post->id = $lastInsertId;
         return $post;
     }
+
 
     public function findById(int $id): ?Post
     {
@@ -38,7 +42,7 @@ class PostRepository
                 $post->id = $row['post_id'];
                 $post->title = $row['title'];
                 $post->description = $row['description'];
-                $post->postDate = $row['post_date'];
+                $post->postDate = new \DateTime($row['post_date']);
                 $post->location = $row['location'];
                 $post->categoryId = $row['category_id'];
                 $post->userId = $row['user_id'];
@@ -75,7 +79,6 @@ class PostRepository
 
         // Tambahkan limit dan offset untuk pagination
         $query .= " LIMIT ? OFFSET ?";
-
         // Eksekusi query
         $statement = $this->connection->prepare($query);
 
@@ -89,16 +92,18 @@ class PostRepository
         $statement->execute();
 
         $posts = [];
-        while ($row = $statement->fetchAll(\PDO::FETCH_ASSOC)) {
-            $post = new Post();
-            $post->id = $row['post_id'];
-            $post->title = $row['title'];
-            $post->description = $row['description'];
-            $post->postDate = new \DateTime($row['post_date']);
-            $post->location = $row['location'];
-            $post->userId = $row['user_id'];
-            $post->categoryId = $row['category_id'];
-            $posts[] = $post;
+        while ($rows = $statement->fetchAll()) {
+            foreach ($rows as $row) {
+                $post = new Post();
+                $post->id = $row['post_id'];
+                $post->title = $row['title'];
+                $post->description = $row['description'];
+                $post->postDate = new \DateTime($row['post_date']);
+                $post->location = $row['location'];
+                $post->userId = $row['user_id'];
+                $post->categoryId = $row['category_id'];
+                $posts[] = $post;
+            }
         }
 
         return $posts;

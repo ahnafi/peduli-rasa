@@ -28,12 +28,15 @@ class PostImagesRepository
 
         $data = [];
         while ($rows = $statement->fetchAll(\PDO::FETCH_ASSOC)) {
-            $row = new PostImage();
-            $row->id = $rows['image_id'];
-            $row->postId = $rows['post_id'];
-            $row->imageName = $rows['image_name'];
+            foreach ($rows as $row) {
 
-            $data[] = $row;
+                $img = new PostImage();
+                $img->id = $row['image_id'];
+                $img->postId = $row['post_id'];
+                $img->imageName = $row['image_name'];
+
+                $data[] = $img;
+            }
         }
 
         return $data;

@@ -47,10 +47,10 @@ class UserController
 
         try {
             $this->userService->register($request);
-            View::redirect('/users/login');
+            View::redirect('/login');
         } catch (ValidationException $exception) {
-            Flasher::setFlash('danger', $exception->getMessage(),"danger");
-            View::redirect('/users/register');
+            Flasher::setFlash('ups', $exception->getMessage(),"error");
+            View::redirect('/register');
         }
     }
 
@@ -73,7 +73,7 @@ class UserController
             View::redirect('/');
         } catch (ValidationException $exception) {
             Flasher::setFlash('danger', $exception->getMessage(),"danger");
-            View::redirect('/users/login');
+            View::redirect('/login');
         }
     }
 

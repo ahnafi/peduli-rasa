@@ -23,7 +23,7 @@ class MustLoginMiddleware implements Middleware
     {
         $user = $this->sessionService->current();
         if ($user == null) {
-            View::redirect('/users/login');
+            View::redirect('/login');
         }
     }
 }

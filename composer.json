@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": ">=8",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-mbstring": "*"
     }
 }

@@ -1,5 +1,11 @@
 <?php
 $title = $model["title"] ?? "";
+$user = $model["user"] ?? "";
+$userId = $user["id"] ?? "";
+$username = $user["username"] ?? "";
+$userEmail = $user["email"] ?? "";
+
+include_once __DIR__ . "/Components/utils.php";
 ?>
 <!doctype html>
 <html lang="en">
@@ -16,19 +22,21 @@ $title = $model["title"] ?? "";
           rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/style/output.css">
     <title><?= $title ?> | PeduliRasa</title>
-    <script src="/script/"></script>
+        <script src="/script/utils.js"></script>
 </head>
 <body class="font-nunito">
-
 <?php
+
 use PeduliRasa\App\Flasher;
+
 Flasher::FLASH();
 ?>
-
 <nav class="bg-light-base fixed w-full z-[999] normal-font-size">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/logo.png" class="w-12" alt="PeduliRasa Logo"/>
         </a>
         <div class="flex lg:order-2 gap-8">
@@ -53,9 +61,9 @@ Flasher::FLASH();
                         <span class="sr-only">Search icon</span>
                     </div>
                     <form action="/post/search" method="get">
-                        <input type="text" id="search-navbar"
+                        <input type="text"
                                class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
-                               placeholder="Search..." name="title"/>
+                               placeholder="Search..." name="title" value="<?= $_GET["title"] ?? "" ?>"/>
                     </form>
                 </div>
                 <button type="button"
@@ -63,8 +71,10 @@ Flasher::FLASH();
                         aria-controls="navbar-search"
                         id="toggle-button">
                     <span class="sr-only">Open main menu</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"></path>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M1 1h15M1 7h15M1 13h15"></path>
                     </svg>
                 </button>
             </div>
@@ -72,57 +82,61 @@ Flasher::FLASH();
                 <a href="/login" class="block text-dark-base rounded-lg border border-dark-base py-1 px-3 font-bold">
                     Masuk
                 </a>
-                <a href="/register" class="block text-light-base bg-green-base py-1 px-3 border border-green-base rounded-lg font-bold" >
+                <a href="/register"
+                   class="block text-light-base bg-green-base py-1 px-3 border border-green-base rounded-lg font-bold">
                     Daftar
                 </a>
             </div>
         </div>
-        <div id="navbar-search" class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden" >
+        <div id="navbar-search" class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden">
             <div class="relative mt-3 lg:hidden">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 20" >
+                         aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 20 20">
                         <path stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
                               d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z">
                         </path>
                     </svg>
                 </div>
                 <form action="/post/search" method="get">
-                <input type="text"
-                        id="search-navbar"
-                        class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
-                        placeholder="Search..." />
+                    <input type="text"
+                           class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
+                           placeholder="Search..." value="<?= $_GET["title"] ?? "" ?>"/>
                 </form>
             </div>
-            <ul class="flex flex-col p-4 lg:p-0 mt-4 font-medium border rounded-lg lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0" >
+            <ul class="flex flex-col p-4 lg:p-0 mt-4 font-medium border rounded-lg lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0">
                 <li>
-                    <a href="/" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0" >
+                    <a href="/" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0">
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="/ayo-berbagi" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0" >
+                    <a href="/ayo-berbagi"
+                       class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0">
                         Ayo Berbagi
                     </a>
                 </li>
                 <li>
-                    <a href="/tentang-kami" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0" >
+                    <a href="/tentang-kami"
+                       class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0">
                         Tentang Kami
                     </a>
                 </li>
                 <li>
-                    <a href="/login" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 lg:hidden" >
+                    <a href="/login"
+                       class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 lg:hidden">
                         Masuk
                     </a>
                 </li>
                 <li>
-                    <a  href="/register" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 bg-green-base text-light-base lg:hidden" >
+                    <a href="/register"
+                       class="block py-2 px-3 rounded font-bold md:py-1 md:px-2 lg:p-0 bg-green-base text-light-base lg:hidden">
                         Masuk
                     </a>
                 </li>
