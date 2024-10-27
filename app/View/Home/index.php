@@ -73,6 +73,9 @@ include_once __DIR__ . "/../Components/Swiper.php";
                     selengkapnya</a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
+                <?php if(count($foodAndDrink) <= 0) : ?>
+                    <h3>Belum ada Postingan </h3>
+                <?php else: ?>
                 <?php foreach ($foodAndDrink as $post) : ?>
                     <div class="card max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
                         <a href="/post/detail/<?= $post->id ?>">
@@ -96,6 +99,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -161,7 +165,9 @@ include_once __DIR__ . "/../Components/Swiper.php";
                 </a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
-
+                <?php if(count($events) <= 0) : ?>
+                    <h3>Belum ada info kegiatan</h3>
+                <?php else: ?>
                 <?php foreach ($events as $event): ?>
                     <div class=" max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
                         <a href="/post/detail/<?= $event->id ?>">
@@ -185,6 +191,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <?php endif;?>
             </div>
         </div>
 

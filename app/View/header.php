@@ -1,6 +1,6 @@
 <?php
 $title = $model["title"] ?? "";
-$user = $model["user"] ?? "";
+$user = $model["user"] ?? null;
 $userId = $user["id"] ?? "";
 $username = $user["username"] ?? "";
 $userEmail = $user["email"] ?? "";

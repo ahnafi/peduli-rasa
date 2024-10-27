@@ -124,7 +124,7 @@ $posts = $model["posts"] ?? [];
                                     </a>
                                 </h5>
                                 <p class="description-card-font-size font-normal text-gray-700">
-                                    <?= truncateText($post->description) ?>
+                                    <?= truncateText($post->description,36) ?>
                                 </p>
                             </div>
                         </div>

@@ -271,8 +271,8 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
-                "profile_photo" => $user->profilePhoto,
-                "phone_number" => $user->phoneNumber
+                "profilePhoto" => $user->profilePhoto,
+                "phoneNumber" => $user->phoneNumber
             ];
         }
 
@@ -313,8 +313,8 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
-                "profile_photo" => $user->profilePhoto,
-                "phone_number" => $user->phoneNumber
+                "profilePhoto" => $user->profilePhoto,
+                "phoneNumber" => $user->phoneNumber
             ];
         }
 
@@ -334,8 +334,8 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
-                "profile_photo" => $user->profilePhoto,
-                "phone_number" => $user->phoneNumber
+                "profilePhoto" => $user->profilePhoto,
+                "phoneNumber" => $user->phoneNumber
             ];
         }
 
