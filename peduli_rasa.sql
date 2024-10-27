@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 25, 2024 at 01:23 PM
+-- Generation Time: Oct 27, 2024 at 01:06 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -61,6 +61,15 @@ CREATE TABLE `posts` (
   `category_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`post_id`, `title`, `description`, `post_date`, `location`, `created_at`, `user_id`, `category_id`) VALUES
+(30, 'makanan', 'asdasdadada', '2024-10-27 14:50:00', 'kontrakan', '2024-10-27 07:50:13', 2, 1),
+(31, 'minuman', 'disini dibatas kota ini', '2024-10-27 18:56:00', 'kontrakan', '2024-10-27 07:53:03', 3, 3),
+(32, 'Ini slebew', 'Open gate wak dari pagi sampai jam 12 malam', '2024-10-27 16:19:00', 'Kontrakan', '2024-10-27 09:19:47', 2, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -73,6 +82,21 @@ CREATE TABLE `post_images` (
   `image_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `post_images`
+--
+
+INSERT INTO `post_images` (`image_id`, `post_id`, `image_name`) VALUES
+(33, 30, '671df0b50facf.jpg'),
+(34, 30, '671df0b5106b9.jpg'),
+(35, 30, '671df0b510d16.jpg'),
+(36, 30, '671df0b51114a.jpg'),
+(37, 31, '671df15fab8f6.jpg'),
+(38, 31, '671df15fabe3f.jpg'),
+(39, 31, '671df15fac251.jpg'),
+(40, 31, '671df15faca02.jpg'),
+(41, 32, '671e05b329018.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -83,6 +107,13 @@ CREATE TABLE `sessions` (
   `session_id` varchar(255) NOT NULL,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`session_id`, `user_id`) VALUES
+('671e058806b47', 2);
 
 -- --------------------------------------------------------
 
@@ -99,6 +130,14 @@ CREATE TABLE `users` (
   `profile_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `phone_number`, `profile_photo`, `created_at`) VALUES
+(2, 'budi ono siregar', 'budi@example.com', '$2y$10$nwxhUfa5KtTRinxzooa2E.zymhS.8GHgyl1piEudLzV8dV/y8CSp6', '+622123456789', '671dba4d5ee69.jpg', '2024-10-27 03:31:19'),
+(3, 'eko', 'eko@example.com', '$2y$10$36V7auWWC4/siL9Oe43lFetXD6txPvmmoUeMRWIEx8lttyXSeCn6G', '+62123456789', '671df11a0c7cd.jpg', '2024-10-27 07:51:27');
 
 --
 -- Indexes for dumped tables
@@ -153,19 +192,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `post_images`
 --
 ALTER TABLE `post_images`
-  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
