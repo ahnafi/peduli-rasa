@@ -7,7 +7,7 @@ $location = $_Post["location"] ?? "";
 
 <section id="add-product" class="section-padding-x pt-24 pb-8 small-font-size">
     <div class="max-w-screen-xl container">
-        <h1 class="font-bold sub-header-font-size mb-4">Bagikan Makananmu</h1>
+        <h1 class="font-bold sub-header-font-size mb-4">Buat Postingan</h1>
         <form action="/ayo-berbagi" method="post" enctype="multipart/form-data">
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>

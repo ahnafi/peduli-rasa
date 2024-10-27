@@ -144,6 +144,8 @@ class UserController
                 "id" => $user->id,
                 "email" => $user->email,
                 "username" => $user->username,
+                "phoneNumber" => $user->phoneNumber,
+                "profilePhoto" => $user->profilePhoto
             ]
         ]);
     }
@@ -168,6 +170,8 @@ class UserController
                     "id" => $user->id,
                     "email" => $user->email,
                     "username" => $user->username,
+                    "phoneNumber" => $user->phoneNumber,
+                    "profilePhoto" => $user->profilePhoto
                 ]
             ]);
         }

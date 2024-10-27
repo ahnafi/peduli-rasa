@@ -4,6 +4,7 @@ $user = $model["user"] ?? "";
 $userId = $user["id"] ?? "";
 $username = $user["username"] ?? "";
 $userEmail = $user["email"] ?? "";
+$profilePhoto = $user["profilePhoto"] ?? "profile.svg";
 
 include_once __DIR__ . "/Components/utils.php";
 ?>
@@ -79,6 +80,11 @@ Flasher::FLASH();
                 </button>
             </div>
             <div class="items-center justify-between gap-8 hidden lg:flex">
+                <?php if(isset($user)) : ?>
+                    <a href="/profile" class="flex justify-center items-center gap-2 ">
+                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-9 rounded-full">
+                    </a>
+                <?php else:?>
                 <a href="/login" class="block text-dark-base rounded-lg border border-dark-base py-1 px-3 font-bold">
                     Masuk
                 </a>
@@ -86,6 +92,7 @@ Flasher::FLASH();
                    class="block text-light-base bg-green-base py-1 px-3 border border-green-base rounded-lg font-bold">
                     Daftar
                 </a>
+                <?php endif;?>
             </div>
         </div>
         <div id="navbar-search" class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden">
@@ -128,6 +135,14 @@ Flasher::FLASH();
                         Tentang Kami
                     </a>
                 </li>
+                <?php if(isset($user)) : ?>
+                <li>
+                    <a href="/profile" class="py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 lg:hidden flex justify-start items-center gap-2 w-fit">
+                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-6 rounded-full">
+                        <?= $username ?>
+                    </a>
+                </li>
+                <?php else :?>
                 <li>
                     <a href="/login"
                        class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 lg:hidden">
@@ -140,6 +155,7 @@ Flasher::FLASH();
                         Masuk
                     </a>
                 </li>
+                <?php endif;?>
             </ul>
         </div>
     </div>

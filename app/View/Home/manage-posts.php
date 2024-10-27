@@ -3,7 +3,7 @@ $posts = $model["posts"] ?? [];
 ?>
 
 <div id="popup-modal" tabindex="-1"
-     class="hidden fixed inset-0 z-[900] flex justify-center items-center bg-black bg-opacity-50 normal-font-size">
+     class="hidden fixed inset-0 z-[900] flex justify-center items-center bg-black bg-opacity-50 normal-font-size ">
     <div class="relative bg-white rounded-lg shadow p-4 md:p-6">
         <button type="button" id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -40,7 +40,7 @@ $posts = $model["posts"] ?? [];
         </div>
     </div>
 </div>
-<div class="pt-24 pb-8 section-padding-x">
+<div class="pt-24 pb-8 section-padding-x min-h-screen">
     <div class="container max-w-screen-xl">
         <div class="flex flex-col md:flex-row gap-8">
             <button
@@ -86,7 +86,7 @@ $posts = $model["posts"] ?? [];
                     <?php foreach ($posts as $post) : ?>
                         <div class="max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow relative">
                             <div class="absolute top-1 right-1 md:top-2 md:right-2 flex gap-2 items-center z-10">
-                                <a href="#"
+                                <a href="/post/update/<?= $post->id ?>"
                                    class="text-light-base bg-blue-base p-3 rounded-full edit-product">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 512 512"

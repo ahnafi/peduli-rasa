@@ -144,8 +144,9 @@ class PostRepository
 
     public function update(Post $post): Post
     {
+        $postDate = $post->postDate->format('Y-m-d H:i:s');
         $statement = $this->connection->prepare("UPDATE posts SET title = ? ,description = ? , post_date = ? ,location = ? ,category_id =? WHERE post_id = ? ");
-        $statement->execute([$post->title, $post->description, $post->postDate, $post->location, $post->categoryId, $post->id]);
+        $statement->execute([$post->title, $post->description, $postDate, $post->location, $post->categoryId, $post->id]);
         return $post;
     }
 

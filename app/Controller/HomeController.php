@@ -57,6 +57,7 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
+                "profilePhoto" => $user->profilePhoto,
             ];
         }
 
@@ -93,6 +94,7 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
+                "profilePhoto" => $user->profilePhoto,
             ];
         }
 
@@ -135,15 +137,16 @@ class HomeController
         $user = $this->sessionService->current();
         $model = [
             "title" => "Update Postingan",
-            "user" => [
+            $model["user"] = [
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
+                "profilePhoto" => $user->profilePhoto,
             ]
         ];
 
         $req = new GetPostRequest();
-        $req->postId = $postId;
+        $req->postId = (int) $postId;
 
         try {
             // Ambil post dan gambar dari service
@@ -191,7 +194,7 @@ class HomeController
         try {
             $this->postService->update($req);
             Flasher::setFlash("success", "Postingan berhasil diupdate");
-            View::redirect("/");
+            View::redirect("/profile/manage-posts");
         } catch (ValidationException $err) {
             Flasher::setFlash("Error", $err->getMessage(), "danger");
             View::redirect('/post/update/' . $req->postId);
@@ -228,6 +231,7 @@ class HomeController
                 "id" => $user->id,
                 "username" => $user->username,
                 "email" => $user->email,
+                "profilePhoto" => $user->profilePhoto,
             ];
         }
 

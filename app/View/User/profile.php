@@ -30,7 +30,7 @@ $user = $model["user"] ?? null;
                     </a>
                 </div>
             </aside>
-            <form id="updateForm" action="/profile" class="small-font-size flex flex-col gap-4 mb-4 w-full max-w-lg"
+            <form id="updateForm" action="/profile" class="small-font-size flex flex-col gap-4 mb-4 w-full max-w-lg min-h-screen"
                   method="post" enctype="multipart/form-data" onsubmit="updatePhone()">
                 <div class="flex items-center gap-4">
                     <img src="/images/profile/<?= $user["profilePhoto"] ?? "profile.svg" ?>" alt="Foto profil"
@@ -40,6 +40,11 @@ $user = $model["user"] ?? null;
                             <label for="profilePhoto" class="font-semibold cursor-pointer text-light-base">
                                 Ganti Foto Profil</label>
                             <input type="file" name="profilePhoto" id="profilePhoto" class="hidden"/>
+                        </div>
+                        <div class="bg-red-600 py-2 px-4 rounded-lg block">
+                            <a href="/" class="font-semibold cursor-pointer text-light-base">
+                                Ganti Password
+                            </a>
                         </div>
                     </div>
                 </div>
