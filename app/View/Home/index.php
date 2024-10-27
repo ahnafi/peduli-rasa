@@ -12,25 +12,25 @@ include_once __DIR__ . "/../Components/Swiper.php";
                 <div class="flex justify-between items-center">
                     <ul class="items-center justify-between gap-4 hidden md:flex">
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=1,2,3"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg  bg-dark-base text-light-base">
                                 Semua
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=1"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg text-dark-base ">
-                                Makanan kering
+                                Makanan Basah
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=2"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg text-dark-base ">
-                                Makanan basah
+                                Makanan Kering
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=3"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg text-dark-base ">
                                 Minuman
                             </a>
@@ -50,19 +50,19 @@ include_once __DIR__ . "/../Components/Swiper.php";
                         </button>
                         <div id="food-and-drink-dropdown"
                              class="absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 hidden">
-                            <a href="#"
+                            <a href="/post/search?categories=1,2,3"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
                                 Semua
                             </a>
-                            <a href="#"
+                            <a href="/post/search?categories=1"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
                                 Makanan Kering
                             </a>
-                            <a href="#"
+                            <a href="/post/search?categories=2"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
-                                Makanan basah
+                                Makanan Basah
                             </a>
-                            <a href="#"
+                            <a href="/post/search?categories=3"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
                                 Minuman
                             </a>
@@ -74,7 +74,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
                 <?php if(count($foodAndDrink) <= 0) : ?>
-                    <h3>Belum ada Postingan </h3>
+                    <h3 class="sub-header-font-size text-center font-bold col-span-4">Belum ada info makanan dan minuman</h3>
                 <?php else: ?>
                 <?php foreach ($foodAndDrink as $post) : ?>
                     <div class="card max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
@@ -111,19 +111,24 @@ include_once __DIR__ . "/../Components/Swiper.php";
                 <div class="flex justify-between items-center">
                     <ul class="items-center justify-between gap-4 hidden md:flex">
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=4,5,6"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg bg-dark-base text-light-base">
                                 Semua
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=4"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg text-dark-base ">
                                 Jumat Berkah
                             </a>
                         </li>
+                            <a href="/post/search?categories=5"
+                               class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg text-dark-base ">
+                                Peduli Sosial
+                            </a>
+                        </li>
                         <li>
-                            <a href="#"
+                            <a href="/post/search?categories=6"
                                class="py-1 px-2 border extra-small-font-size border-dark-base rounded-lg text-dark-base ">
                                 Bakti Sosial
                             </a>
@@ -145,17 +150,21 @@ include_once __DIR__ . "/../Components/Swiper.php";
                         </button>
                         <div id="event-dropdown"
                              class="absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 hidden">
-                            <a href="#"
+                            <a href="/post/search?categories=4,5,6"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
                                 Semua
                             </a>
-                            <a href="#"
+                            <a href="/post/search?categories=4"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
-                                Jumat berkah
+                                Jumat Berkah
                             </a>
-                            <a href="#"
+                            <a href="/post/search?categories=5"
                                class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
-                                Bakti sosial
+                                Peduli Sosial
+                            </a>
+                            <a href="/post/search?categories=6"
+                               class="block w-full px-3 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-100 cursor-pointer rounded-md">
+                                Bakti Sosial
                             </a>
                         </div>
                     </div>
@@ -166,7 +175,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
                 <?php if(count($events) <= 0) : ?>
-                    <h3>Belum ada info kegiatan</h3>
+                    <h3 class="sub-header-font-size text-center font-bold col-span-4">Belum ada info kegiatan</h3>
                 <?php else: ?>
                 <?php foreach ($events as $event): ?>
                     <div class=" max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">

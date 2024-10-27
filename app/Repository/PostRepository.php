@@ -33,7 +33,7 @@ class PostRepository
 
     public function findById(int $id): ?Post
     {
-        $statement = $this->connection->prepare("SELECT post_id,title,description,post_date,location,user_id,category_id FROM posts WHERE post_id = ?");
+        $statement = $this->connection->prepare("SELECT post_id,title,description,post_date,location,user_id,category_id, created_at FROM posts WHERE post_id = ?");
         $statement->execute([$id]);
 
         try {
@@ -46,6 +46,7 @@ class PostRepository
                 $post->location = $row['location'];
                 $post->categoryId = $row['category_id'];
                 $post->userId = $row['user_id'];
+                $post->timeStamp = $row['created_at'];
                 return $post;
             } else {
                 return null;

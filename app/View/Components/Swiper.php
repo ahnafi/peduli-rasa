@@ -1,17 +1,35 @@
 <?php
-$image = ["/images/banners/bengkel-motor.jpg","/images/banners/laundry.jpg","/images/banners/warung-makan.webp"];
+$image = [
+    [
+        "img" => "/images/banners/bengkel-motor.jpg",
+        "alt" => "bengkel motor"
+    ],
+    [
+        "img" => "/images/banners/laundry.jpg",
+        "alt" => "laundry"
+
+    ],
+    [
+        "img" => "/images/banners/warung-makan.webp",
+        "alt" => "warung makan"
+    ],
+    [
+        "img" => "/images/banners/buka-bersama.png",
+        "alt" => "buka bersama"
+    ]
+];
 ?>
-<div class="pt-20 md:pt-24 max-w-screen-lg aspect-video md:aspect-[21/9] container section-padding-x" >
+<div class="pt-20 md:pt-24 max-w-screen-lg aspect-video md:aspect-[21/9] container section-padding-x">
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             <?php foreach ($image as $img): ?>
-            <div class="swiper-slide">
-                <img
-                    src="<?= $img ?>"
-                    alt="banner image"
-                    class="w-full object-cover rounded-lg"
-                />
-            </div>
+                <div class="swiper-slide">
+                    <img
+                            src="<?= $img["img"] ?>"
+                            alt="<?= $img["alt"] ?>"
+                            class="w-full object-cover rounded-lg"
+                    />
+                </div>
             <?php endforeach; ?>
         </div>
         <div class="swiper-pagination"></div>

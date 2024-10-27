@@ -47,7 +47,7 @@ class UserController
 
         try {
             $this->userService->register($request);
-            View::redirect('/login');
+            View::redirect('/register/verify');
         } catch (ValidationException $exception) {
             Flasher::setFlash('ups', $exception->getMessage(), "error");
             View::redirect('/register');
@@ -161,19 +161,27 @@ class UserController
         try {
             $this->userService->updatePassword($request);
             Flasher::setFlash('success', "Password berhasil diupdate");
-            View::redirect('/');
+            View::redirect('/profile');
         } catch (ValidationException $exception) {
             Flasher::setFlash('danger', $exception->getMessage(), "danger");
-            View::render('User/password', [
-                "title" => "Update user password",
-                "user" => [
-                    "id" => $user->id,
-                    "email" => $user->email,
-                    "username" => $user->username,
-                    "phoneNumber" => $user->phoneNumber,
-                    "profilePhoto" => $user->profilePhoto
-                ]
-            ]);
+            View::redirect('/profile/password');
         }
+    }
+
+    public function otp (){
+
+        $model = [
+            "title" => "Verification otp",
+        ];
+
+        View::render('User/otp', $model);
+    }
+
+    public function verify(): void {
+        $model = [
+          "title" => "Verification otp",
+        ];
+
+        View::render('User/verification', $model);
     }
 }

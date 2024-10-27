@@ -49,7 +49,7 @@ class PostService
             // Check if the category exists
             $category = $this->categoryRepository->find($request->categoryId);
             if ($category === null) {
-                throw new ValidationException("Category not found");
+                throw new ValidationException("Kategori tidak ditemukan");
             }
 
             // Create and save the post
@@ -78,7 +78,6 @@ class PostService
                         $this->postImagesRepository->save($postImage);
                     }
                 }
-
             }
             Database::commitTransaction();
         } catch (\Exception $e) {
@@ -91,51 +90,51 @@ class PostService
     {
         // Validasi title
         if ($request->title == null || trim($request->title) === '') {
-            throw new ValidationException("Title is required");
+            throw new ValidationException("Judul diperlukan");
         }
 
         // Validasi description
         if ($request->description == null || trim($request->description) === '') {
-            throw new ValidationException("Description is required");
+            throw new ValidationException("Deskripsi diperlukan");
         }
 
         // Validasi postDate
         if ($request->postDate == null) {
-            throw new ValidationException("Post date is required");
+            throw new ValidationException("Tanggal posting diperlukan");
         }
 
         // Validasi location
         if ($request->location == null || trim($request->location) === '') {
-            throw new ValidationException("Location is required");
+            throw new ValidationException("Lokasi diperlukan");
         }
 
         // Validasi categoryId
         if ($request->categoryId == null || $request->categoryId <= 0) {
-            throw new ValidationException("Valid category is required");
+            throw new ValidationException("Kategori yang valid diperlukan");
         }
 
         // Validasi photos (file upload)
         if ($request->photos == null || count($request->photos) === 0) {
-            throw new ValidationException("At least one photo is required");
+            throw new ValidationException("Setidaknya satu foto diperlukan");
         }
 
         foreach ($request->photos["error"] as $err) {
             if ($err !== UPLOAD_ERR_OK) {
-                throw new ValidationException("Error uploading file");
+                throw new ValidationException("Kesalahan mengunggah file");
             }
         }
 
         foreach ($request->photos["type"] as $file) {
             $validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
             if (!in_array($file, $validTypes)) {
-                throw new ValidationException("Invalid file type");
+                throw new ValidationException("Jenis file tidak valid");
             }
         }
 
         foreach ($request->photos["size"] as $file) {
             $maxSize = 1024 * 1024;
             if ($file > $maxSize) {
-                throw new ValidationException("File size is too large, maximum size is 1MB");
+                throw new ValidationException("Ukuran file terlalu besar, ukuran maksimum adalah 1MB");
             }
         }
     }
@@ -147,7 +146,7 @@ class PostService
         $post = $this->postRepository->findById($request->postId);
 
         if ($post == null) {
-            throw new ValidationException("Post not found");
+            throw new ValidationException("Postingan tidak ditemukan");
         }
 
         $category = $this->categoryRepository->find($post->categoryId);
@@ -165,7 +164,7 @@ class PostService
     private function ValidateGetPostRequest(GetPostRequest $request): void
     {
         if ($request->postId == null || trim($request->postId) === '') {
-            throw new ValidationException("Post ID is required");
+            throw new ValidationException("ID postingan diperlukan");
         }
     }
 
@@ -179,17 +178,17 @@ class PostService
             $user = $this->userRepository->findUserByField("email", $request->userEmail);
 
             if ($user == null) {
-                throw new ValidationException("User not found");
+                throw new ValidationException("Pengguna tidak ditemukan");
             }
 
             $post = $this->postRepository->findById($request->postId);
 
             if ($post == null) {
-                throw new ValidationException("Post not found");
+                throw new ValidationException("Postingan tidak ditemukan");
             }
 
             if ($post->userId != $user->id) {
-                throw new ValidationException("User not allowed to update post");
+                throw new ValidationException("Pengguna tidak diizinkan untuk memperbarui postingan");
             }
 
             $post->title = $request->title;
@@ -216,31 +215,31 @@ class PostService
     private function ValidateUserUpdatePostRequest(UserUpdatePostRequest $request): void
     {
         if ($request->postId == null || trim($request->postId) === '') {
-            throw new ValidationException("Post ID is required");
+            throw new ValidationException("ID postingan diperlukan");
         }
 
         if ($request->title == null || trim($request->title) === '') {
-            throw new ValidationException("Title is required");
+            throw new ValidationException("Judul diperlukan");
         }
 
         if ($request->description == null || trim($request->description) === '') {
-            throw new ValidationException("Description is required");
+            throw new ValidationException("Deskripsi diperlukan");
         }
 
         if ($request->postDate == null) {
-            throw new ValidationException("Post date is required");
+            throw new ValidationException("Tanggal posting diperlukan");
         }
 
         if ($request->location == null || trim($request->location) === '') {
-            throw new ValidationException("Location is required");
+            throw new ValidationException("Lokasi diperlukan");
         }
 
         if ($request->categoryId == null) {
-            throw new ValidationException("Category ID is required");
+            throw new ValidationException("ID kategori diperlukan");
         }
 
         if ($request->userEmail == null || trim($request->userEmail) === '') {
-            throw new ValidationException("anda harus login terlebih dahulu");
+            throw new ValidationException("Anda harus login terlebih dahulu");
         }
     }
 
@@ -253,16 +252,16 @@ class PostService
 
             $user = $this->userRepository->findUserByField("email", $request->userEmail);
             if ($user == null) {
-                throw new ValidationException("User not found");
+                throw new ValidationException("Pengguna tidak ditemukan");
             }
 
             $post = $this->postRepository->findById($request->postId);
             if ($post == null) {
-                throw new ValidationException("Post not found");
+                throw new ValidationException("Postingan tidak ditemukan");
             }
 
             if ($post->userId != $user->id) {
-                throw new ValidationException("User not allowed to delete this post");
+                throw new ValidationException("Pengguna tidak diizinkan untuk menghapus postingan ini");
             }
 
             $images = $this->postImagesRepository->findByPostId($post->id);
@@ -290,11 +289,11 @@ class PostService
     private function ValidateDeletePostRequest(UserDeletePostRequest $request): void
     {
         if ($request->postId == null || trim($request->postId) === '') {
-            throw new ValidationException("Post ID is required");
+            throw new ValidationException("ID postingan diperlukan");
         }
 
         if ($request->userEmail == null || trim($request->userEmail) === '') {
-            throw new ValidationException("User email is required");
+            throw new ValidationException("Email pengguna diperlukan");
         }
     }
 
@@ -332,24 +331,25 @@ class PostService
     private function ValidateSearchPostRequest(SearchPostRequest $request): void
     {
         if ($request->title == null && empty($request->categories)) {
-            throw new ValidationException("Title or Category is required");
+            throw new ValidationException("Judul atau Kategori diperlukan");
         }
     }
 
-    public function findByUserId (GetPostUserRequest $request):GetPostUserResponse {
+    public function findByUserId(GetPostUserRequest $request): GetPostUserResponse
+    {
 
         if ($request->userId == null) {
-            throw new ValidationException("User ID is required");
+            throw new ValidationException("ID pengguna diperlukan");
         }
 
-        try{
+        try {
 
             $user = $this->userRepository->findUserByField("user_id", $request->userId);
             if ($user == null) {
-                throw new ValidationException("User not found");
+                throw new ValidationException("Pengguna tidak ditemukan");
             }
 
-            $posts = $this->postRepository->findByUser($user->id,$request->page);
+            $posts = $this->postRepository->findByUser($user->id, $request->page);
 
             foreach ($posts as $post) {
                 $images = $this->postImagesRepository->findByPostId($post->id);
@@ -365,10 +365,8 @@ class PostService
             $response->posts = $posts;
 
             return $response;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
-
     }
-
 }

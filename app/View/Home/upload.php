@@ -39,8 +39,8 @@ $location = $_Post["location"] ?? "";
                         Kategori
                     </label>
                     <select id="category" name="categoryId"
-                            class="bg-gray-50 border border-gray-300 text-dark-base rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                        <option selected="">Select category</option>
+                            class="bg-gray-50 border border-gray-300 text-dark-base rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                        <option value="0">Pilih Kategori</option>
                         <option value="1">Makanan Basah</option>
                         <option value="2">Makanan Kering</option>
                         <option value="3">Minuman</option>

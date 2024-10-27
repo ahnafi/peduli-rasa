@@ -30,6 +30,26 @@ if (isset($model["post"])) {
         height: 100%;
         object-fit: cover;
     }
+
+    .swiper-slide {
+        position: relative;
+    }
+
+    <?php foreach ($images as $image) : ?>
+    @media screen and (min-width: 768px) {
+        .swiper-slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+            background: url("/images/posts/<?= $image->imageName ?>") no-repeat center center;
+            z-index: -1;
+        }
+    }
+    <?php endforeach; ?>
 </style>
 
 <main id="detail-product" class="pt-20 w-full flex justify-between flex-col md:flex-row ">
@@ -38,8 +58,8 @@ if (isset($model["post"])) {
             <div class="swiper-wrapper">
                 <?php foreach ($images as $image) : ?>
                     <div class="swiper-slide">
-                        <img src="/images/posts/<?= $image->imageName ?>" alt=" Slide "
-                             class="w-full object-cover rounded-lg"/>
+                        <img src="/images/posts/<?= $image->imageName ?>" alt="banner <?= $post["title"] ?>"
+                             class="max-w-md object-cover rounded-lg"/>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -61,11 +81,11 @@ if (isset($model["post"])) {
                     <?= $post["title"] ?>
                 </h1>
                 <p class="small-font-size text-gray-600 font-light">
-                    Ditawarkan  yang lalu di
+                    Ditawarkan <span id="createAt"><?= $post["createdAt"] ?></span> yang lalu di <?= $post["location"] ?>
                 </p>
             </div>
             <div class="flex gap-2 items-center mb-4">
-                <a target="_blank" href="https://wa.me/<?= $model["user"]["phone_number"] ?? "" ?>" class="rounded-lg bg-[#25D366] text-light-base h-9 px-2 items-center flex gap-2" >
+                <a target="_blank" href="https://wa.me/<?= $model["user"]["phone_number"] ?? "" ?>" class="rounded-lg bg-green-base text-light-base h-9 px-2 items-center flex gap-2" >
                     <img src="/images/icons/whatsapp.png" alt="Whatsapp Icon" class="h-6 w-6 aspect-square" />
                     <span class="normal-font-size">Kirim pesan</span>
                 </a>
@@ -80,7 +100,7 @@ if (isset($model["post"])) {
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between">
                         <h3 class="normal-font-size font-medium">Berlaku Sampai</h3>
-                        <p class="normal-font-size"><?= $post["postDate"]?></p>
+                        <p class="normal-font-size" id="postDate"><?= $post["postDate"]?></p>
                     </div>
                     <div class="flex justify-between">
                         <h3 class="normal-font-size font-medium">Kategori</h3>
@@ -139,4 +159,13 @@ if (isset($model["post"])) {
             timer: 1000
         });
     }
+
+    const createdAt = document.getElementById("createAt").innerText;
+    let timeNow = timeAgo(createdAt);
+    document.getElementById("createAt").innerText = timeNow;
+
+    const postDate = document.getElementById("postDate").innerText;
+    let timePost = formatDate(postDate);
+    document.getElementById("postDate").innerText = timePost;
+
 </script>

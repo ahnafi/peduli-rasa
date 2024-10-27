@@ -30,7 +30,7 @@ $user = $model["user"] ?? null;
                     </a>
                 </div>
             </aside>
-            <form id="updateForm" action="/profile" class="small-font-size flex flex-col gap-4 mb-4 w-full max-w-lg min-h-screen"
+            <form id="updateForm" action="/profile" class="small-font-size flex flex-col gap-4 mb-4 w-full max-w-lg"
                   method="post" enctype="multipart/form-data" onsubmit="updatePhone()">
                 <div class="flex items-center gap-4">
                     <img src="/images/profile/<?= $user["profilePhoto"] ?? "profile.svg" ?>" alt="Foto profil"
@@ -42,8 +42,8 @@ $user = $model["user"] ?? null;
                             <input type="file" name="profilePhoto" id="profilePhoto" class="hidden"/>
                         </div>
                         <div class="bg-red-600 py-2 px-4 rounded-lg block">
-                            <a href="/" class="font-semibold cursor-pointer text-light-base">
-                                Ganti Password
+                            <a href="/profile/password" class="font-semibold cursor-pointer text-light-base">
+                                Ubah Password
                             </a>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ $user = $model["user"] ?? null;
                     </label>
                     <input class="bg-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                            type="text" id="phoneNumber" name="phoneNumber" placeholder="Masukkan nomor handphone..."
-                           inputmode="numeric" value="<?= $user["phoneNumber"] ?>"/>
+                           inputmode="numeric" value="<?= $user["phoneNumber"] ?>" pattern="^\+?[0-9]+$"/>
                 </div>
                 <div class="">
                     <button type="submit"
@@ -90,8 +90,8 @@ $user = $model["user"] ?? null;
 
     function updatePhone() {
         let phoneNumber = document.getElementById("phoneNumber").value;
-        if (phoneNumber.startsWith("08")) {
-            document.getElementById("phoneNumber").value = phoneNumber.replace(/^08/, "+62");
+        if (phoneNumber.startsWith("0")) {
+            document.getElementById("phoneNumber").value = phoneNumber.replace(/^0/, "+62");
         }
     }
 </script>

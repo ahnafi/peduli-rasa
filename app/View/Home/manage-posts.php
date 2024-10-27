@@ -3,7 +3,7 @@ $posts = $model["posts"] ?? [];
 ?>
 
 <div id="popup-modal" tabindex="-1"
-     class="hidden fixed inset-0 z-[900] flex justify-center items-center bg-black bg-opacity-50 normal-font-size ">
+     class="hidden fixed inset-0 z-[900] flex justify-center items-center bg-black bg-opacity-50 normal-font-size">
     <div class="relative bg-white rounded-lg shadow p-4 md:p-6">
         <button type="button" id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -40,7 +40,7 @@ $posts = $model["posts"] ?? [];
         </div>
     </div>
 </div>
-<div class="pt-24 pb-8 section-padding-x min-h-screen">
+<div class="pt-24 pb-8 section-padding-x min-h-[480px] md:min-h-[640px]">
     <div class="container max-w-screen-xl">
         <div class="flex flex-col md:flex-row gap-8">
             <button
@@ -78,7 +78,7 @@ $posts = $model["posts"] ?? [];
                 </div>
             </aside>
 
-            <div class="">
+            <div class="md:w-2/3 lg:w-3/4">
                 <h1 class="sub-header-font-size font-semibold text-dark-base mb-4">
                     Kelola Postingan
                 </h1>

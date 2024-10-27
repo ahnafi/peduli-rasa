@@ -124,7 +124,7 @@ class HomeController
             // Panggil service upload postingan
             $this->postService->upload($request);
 
-            Flasher::setFlash("success", "Postingan berhasil diupload");
+            Flasher::setFlash("Berhasil", "Postingan berhasil diupload");
             View::redirect("/");
         } catch (ValidationException $err) {
             Flasher::setFlash("Error", $err->getMessage(), "danger");
@@ -153,7 +153,7 @@ class HomeController
             $res = $this->postService->getPost($req);
             // Jika post ditemukan, cek apakah user yang mengakses adalah pemilik post
             if ($res->post->userId !== $user->id) {
-                Flasher::setFlash("Ups", "You are not allowed to update this post", "danger");
+                Flasher::setFlash("Maaf", "Anda tidak diizinkan untuk memperbarui pos ini. Silahkan masuk terlebih dahulu", "danger");
                 View::redirect('/');
                 return;
             }
@@ -173,7 +173,7 @@ class HomeController
             // Render view untuk halaman update
             View::render('Home/update', $model);
         } catch (ValidationException $exception) {
-            Flasher::setFlash("Ups", $exception->getMessage(), "danger");
+            Flasher::setFlash("Maaf", $exception->getMessage(), "danger");
             View::redirect('/');
         }
     }
@@ -193,7 +193,7 @@ class HomeController
 
         try {
             $this->postService->update($req);
-            Flasher::setFlash("success", "Postingan berhasil diupdate");
+            Flasher::setFlash("Berhasil", "Postingan berhasil diubah");
             View::redirect("/profile/manage-posts");
         } catch (ValidationException $err) {
             Flasher::setFlash("Error", $err->getMessage(), "danger");
@@ -211,10 +211,10 @@ class HomeController
 
         try {
             $this->postService->delete($req);
-            Flasher::setFlash("success", "Postingan berhasil dihapus");
+            Flasher::setFlash("Berhasil", "Postingan berhasil dihapus");
             View::redirect("/profile/manage-posts");
         } catch (ValidationException $exception) {
-            Flasher::setFlash("Ups", $exception->getMessage(), "danger");
+            Flasher::setFlash("Error", $exception->getMessage(), "danger");
             View::redirect('/');
         }
     }
@@ -254,7 +254,7 @@ class HomeController
 
             View::render('Home/search', model: $model);
         } catch (ValidationException $e) {
-            Flasher::setFlash("danger", $e->getMessage(), "danger");
+            Flasher::setFlash("Maaf", $e->getMessage(), "danger");
             View::redirect('/');
         }
     }
@@ -289,13 +289,14 @@ class HomeController
                 "location" => $res->post->location,
                 "postDate" => $res->post->postDate->format('Y-m-d H:i:s'),
                 "category" => $res->category,
+                "createdAt" => $res->post->timeStamp,
                 "user" => $postUser,
                 "images" => $res->images,
             ];
 
             View::render('Home/detail', model: $model);
         } catch (ValidationException $exception) {
-            Flasher::setFlash("Ups", $exception->getMessage(), "danger");
+            Flasher::setFlash("Maaf", $exception->getMessage(), "danger");
             View::redirect('/');
             return;
         }

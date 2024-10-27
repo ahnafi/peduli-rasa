@@ -6,7 +6,7 @@
                  class="object-cover w-full h-full rounded-r-3xl"/>
         </div>
         <!-- Right: Login Form -->
-        <div class="lg:p-24 lg:pt-8 px-4 w-full lg:w-1/2 flex justify-center items-center">
+        <div class="lg:p-24 lg:pt-[70px] px-4 w-full lg:w-1/2 flex justify-center items-center">
             <div class="max-w-md w-full">
                 <h1 class="header-font-size font-bold mb-2">Daftar</h1>
                 <p class="mb-4">
@@ -48,6 +48,7 @@
                                autocomplete="off"
                                required
                                placeholder="Masukan nomor telepon..."
+                               pattern="^\+?[0-9]+$"
                         />
                     </div>
                     <!-- Password Input -->
@@ -111,8 +112,8 @@
         }
 
         // Validasi nomor telepon dan ubah format ke +62
-        if (phoneNumber.startsWith("08")) {
-            document.getElementById("phoneNumber").value = phoneNumber.replace(/^08/, "+62");
+        if (phoneNumber.startsWith("0")) {
+            document.getElementById("phoneNumber").value = phoneNumber.replace(/^0/, "+62");
         }
 
         return true;

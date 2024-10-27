@@ -2,11 +2,23 @@
 
 $posts = $model['posts'] ?? [];
 
+$category = ["Makanan Basah", "Makanan Kering", "Minuman", "Jumat Berkah", "Peduli Sosial", "Bakti Sosial"];
+$num = $_GET["categories"] ?? "";
+$text = "Kategori \"";
+
+var_dump($_GET["categories"]);
+
+if($num == "1,2,3"){
+    $text = "Semua Kategori";
+}else {
+    $text .= $category[$num - 1] . "\"";
+}
+
 ?>
-<div class="pt-32 pb-8 section-padding-x min-h-screen">
+<div class="pt-20 pb-8 section-padding-x min-h-screen">
     <div class="container max-w-screen-xl">
         <div class="mb-8">
-            <h2 class="sub-header-font-size font-bold mb-2"> <?= isset($_GET["title"]) ? "Mencari " . $_GET["title"] : "Pencarian" ?></h2>
+            <h2 class="sub-header-font-size font-bold mb-2"> <?= isset($_GET["title"]) ? "Hasil pencarian dari \"" . $_GET["title"] . "\"" : "$text" ?> </h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
                 <?php foreach ($posts as $post) : ?>
                     <div class="card max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
