@@ -7,6 +7,7 @@ use PeduliRasa\App\View;
 use PeduliRasa\Config\Database;
 use PeduliRasa\Exception\ValidationException;
 use PeduliRasa\Model\GetPostRequest;
+use PeduliRasa\Model\GetPostUserRequest;
 use PeduliRasa\Model\SearchPostRequest;
 use PeduliRasa\Model\UserDeletePostRequest;
 use PeduliRasa\Model\UserUpdatePostRequest;
@@ -18,12 +19,14 @@ use PeduliRasa\Repository\SessionRepository;
 use PeduliRasa\Repository\UserRepository;
 use PeduliRasa\Service\PostService;
 use PeduliRasa\Service\SessionService;
+use PeduliRasa\Service\UserService;
 
 class HomeController
 {
 
     private SessionService $sessionService;
     private PostService $postService;
+    private UserService $userService;
 
     public function __construct()
     {
@@ -37,6 +40,8 @@ class HomeController
         $postImagesRepository = new PostImagesRepository($connection);
         $userRepository = new UserRepository($connection);
         $this->postService = new PostService($postRepository, $categoryRepository, $postImagesRepository, $userRepository);
+
+        $this->userService = new UserService($userRepository);
     }
 
     function index(): void
@@ -204,7 +209,7 @@ class HomeController
         try {
             $this->postService->delete($req);
             Flasher::setFlash("success", "Postingan berhasil dihapus");
-            View::redirect("/");
+            View::redirect("/profile/manage-posts");
         } catch (ValidationException $exception) {
             Flasher::setFlash("Ups", $exception->getMessage(), "danger");
             View::redirect('/');
@@ -272,6 +277,7 @@ class HomeController
 
         try {
             $res = $this->postService->getPost($req);
+            $postUser = $this->userService->findUser($res->post->userId);
             $model["post"] = [
                 "id" => $res->post->id,
                 "title" => $res->post->title,
@@ -279,7 +285,7 @@ class HomeController
                 "location" => $res->post->location,
                 "postDate" => $res->post->postDate->format('Y-m-d H:i:s'),
                 "category" => $res->category,
-                "userId" => $res->post->userId,
+                "user" => $postUser,
                 "images" => $res->images,
             ];
 
@@ -309,6 +315,35 @@ class HomeController
         }
 
         View::render("Home/about", model: $model);
+    }
+
+
+    public function manage ():void {
+        $user = $this->sessionService->current();
+
+        $model = [
+            "title" => "Kelola Postingan",
+        ];
+
+        if ($user != null) {
+            $model["user"] = [
+                "id" => $user->id,
+                "username" => $user->username,
+                "email" => $user->email,
+                "profile_photo" => $user->profilePhoto,
+                "phone_number" => $user->phoneNumber
+            ];
+        }
+
+        $request = new GetPostUserRequest();
+        $request->userId = $user->id;
+        $request->page = $_GET['page'] ?? 1;
+
+        $response = $this->postService->findByUserId($request);
+
+        $model["posts"] = $response->posts;
+
+        View::render('Home/manage-posts', model: $model);
     }
 
 }

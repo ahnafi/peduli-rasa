@@ -30,14 +30,14 @@ class UserController
         $this->sessionService = new SessionService($sessionRepository, $userRepository);
     }
 
-    public function register() : void
+    public function register(): void
     {
         View::render('User/register', [
             'title' => 'Register new User'
         ]);
     }
 
-    public function postRegister() : void
+    public function postRegister(): void
     {
         $request = new UserRegisterRequest();
         $request->email = $_POST['email'];
@@ -49,19 +49,19 @@ class UserController
             $this->userService->register($request);
             View::redirect('/login');
         } catch (ValidationException $exception) {
-            Flasher::setFlash('ups', $exception->getMessage(),"error");
+            Flasher::setFlash('ups', $exception->getMessage(), "error");
             View::redirect('/register');
         }
     }
 
-    public function login():void
+    public function login(): void
     {
         View::render('User/login', [
             "title" => "Login user"
         ]);
     }
 
-    public function postLogin():void
+    public function postLogin(): void
     {
         $request = new UserLoginRequest();
         $request->email = $_POST['email'];
@@ -72,18 +72,18 @@ class UserController
             $this->sessionService->create($response->user->id);
             View::redirect('/');
         } catch (ValidationException $exception) {
-            Flasher::setFlash('danger', $exception->getMessage(),"danger");
+            Flasher::setFlash('danger', $exception->getMessage(), "danger");
             View::redirect('/login');
         }
     }
 
-    public function logout():void
+    public function logout(): void
     {
         $this->sessionService->destroy();
         View::redirect("/");
     }
 
-    public function updateProfile():void
+    public function updateProfile(): void
     {
         $user = $this->sessionService->current();
 
@@ -94,7 +94,7 @@ class UserController
                 "email" => $user->email,
                 "username" => $user->username,
                 "phoneNumber" => $user->phoneNumber,
-                "profilePhoto"=> $user->profilePhoto
+                "profilePhoto" => $user->profilePhoto
             ],
         ]);
     }
@@ -118,7 +118,7 @@ class UserController
         try {
             $this->userService->updateProfile($request);
             Flasher::setFlash('success', "Profile berhasil diupdate");
-            View::redirect('/');
+            View::redirect('/profile');
         } catch (ValidationException $exception) {
             Flasher::setFlash('danger', $exception->getMessage(), "danger");
             View::render('User/profile', [
@@ -126,7 +126,7 @@ class UserController
                 "user" => [
                     "id" => $user->id,
                     "email" => $user->email,
-                    "profilePhoto"=> $user->profilePhoto,
+                    "profilePhoto" => $user->profilePhoto,
                     "username" => $_POST['username'],
                     "phoneNumber" => $_POST['phoneNumber'],
                 ]
@@ -135,7 +135,7 @@ class UserController
     }
 
 
-    public function updatePassword():void
+    public function updatePassword(): void
     {
         $user = $this->sessionService->current();
         View::render('User/password', [
@@ -148,7 +148,7 @@ class UserController
         ]);
     }
 
-    public function postUpdatePassword():void
+    public function postUpdatePassword(): void
     {
         $user = $this->sessionService->current();
         $request = new UserPasswordUpdateRequest();

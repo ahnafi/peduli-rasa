@@ -28,6 +28,7 @@ Router::add("GET","/post/search", HomeController::class,"search");
 Router::add("POST","/post/delete", HomeController::class,"postDelete",[MustLoginMiddleware::class]);
 Router::add("GET","/post/update/([0-9]*)", HomeController::class,"update",[MustLoginMiddleware::class]);
 Router::add("POST","/post/update", HomeController::class,"postUpdate",[MustLoginMiddleware::class]);
+Router::add("GET","/profile/manage-posts", HomeController::class, 'manage', [MustLoginMiddleware::class]);
 
 // User Controller
 Router::add('GET', '/register', UserController::class, 'register', [MustNotLoginMiddleware::class]);

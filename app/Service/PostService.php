@@ -8,6 +8,8 @@ use PeduliRasa\Domain\PostImage;
 use PeduliRasa\Exception\ValidationException;
 use PeduliRasa\Model\GetPostRequest;
 use PeduliRasa\Model\GetPostResponse;
+use PeduliRasa\Model\GetPostUserRequest;
+use PeduliRasa\Model\GetPostUserResponse;
 use PeduliRasa\Model\SearchPostRequest;
 use PeduliRasa\Model\SearchPostResponse;
 use PeduliRasa\Model\UserDeletePostRequest;
@@ -332,6 +334,41 @@ class PostService
         if ($request->title == null && empty($request->categories)) {
             throw new ValidationException("Title or Category is required");
         }
+    }
+
+    public function findByUserId (GetPostUserRequest $request):GetPostUserResponse {
+
+        if ($request->userId == null) {
+            throw new ValidationException("User ID is required");
+        }
+
+        try{
+
+            $user = $this->userRepository->findUserByField("user_id", $request->userId);
+            if ($user == null) {
+                throw new ValidationException("User not found");
+            }
+
+            $posts = $this->postRepository->findByUser($user->id,$request->page);
+
+            foreach ($posts as $post) {
+                $images = $this->postImagesRepository->findByPostId($post->id);
+
+                if (!empty($images)) {
+                    $post->bannerImage = $images[0]->imageName;
+                } else {
+                    $post->bannerImage = null;
+                }
+            }
+
+            $response = new GetPostUserResponse();
+            $response->posts = $posts;
+
+            return $response;
+        }catch (\Exception $e){
+            throw $e;
+        }
+
     }
 
 }

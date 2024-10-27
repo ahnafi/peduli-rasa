@@ -93,6 +93,7 @@ class UserService
     public function updateProfile(UserProfileUpdateRequest $request): UserProfileUpdateResponse
     {
         $this->validateUserProfileUpdateRequest($request);
+        $pathPhoto = __DIR__ . "/../../public/images/profile/";
 
         try {
             Database::beginTransaction();
@@ -105,9 +106,12 @@ class UserService
             $user->username = $request->username;
             $user->phoneNumber = $request->phoneNumber;
 
+            if ($user->profilePhoto != null && $request->profilePhoto != null) {
+                unlink($pathPhoto . $user->profilePhoto);
+            }
+
             // Menghandle upload file
             if ($request->profilePhoto && isset($request->profilePhoto['tmp_name'])) {
-                $pathPhoto = __DIR__ . "/../../public/images/profile/";
                 $extension = pathinfo($request->profilePhoto['name'], PATHINFO_EXTENSION);
                 $namePhoto = uniqid() . '.' . $extension; // Nama unik untuk file gambar
 
@@ -131,7 +135,7 @@ class UserService
         }
     }
 
-    private function validateUserProfileUpdateRequest(UserProfileUpdateRequest $request):void
+    private function validateUserProfileUpdateRequest(UserProfileUpdateRequest $request): void
     {
         if ($request->email == null || $request->username == null || $request->phoneNumber == null ||
             trim($request->email) == "" || trim($request->username) == "" || trim($request->phoneNumber) == "") {
@@ -156,7 +160,7 @@ class UserService
         try {
             Database::beginTransaction();
 
-            $user = $this->userRepository->findUserByField("email",$request->email);
+            $user = $this->userRepository->findUserByField("email", $request->email);
             if ($user == null) {
                 throw new ValidationException("User tidak ditemukan");
             }
@@ -179,11 +183,30 @@ class UserService
         }
     }
 
-    private function validateUserPasswordUpdateRequest(UserPasswordUpdateRequest $request):void
+    private function validateUserPasswordUpdateRequest(UserPasswordUpdateRequest $request): void
     {
         if ($request->email == null || $request->oldPassword == null || $request->newPassword == null ||
             trim($request->email) == "" || trim($request->oldPassword) == "" || trim($request->newPassword) == "") {
             throw new ValidationException("Email atau Password tidak boleh kosong");
         }
+    }
+
+    public function findUser(int $id): User
+    {
+
+        if ($id == null || $id == "") {
+            throw new ValidationException("ID tidak boleh kosong");
+        }
+
+        try {
+            $user = $this->userRepository->findUserByField("user_id", $id);
+            if ($user == null) {
+                throw new ValidationException("User tidak ditemukan");
+            }
+            return $user;
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+
     }
 }

@@ -52,9 +52,9 @@ if (isset($model["post"])) {
     <section id="product-detail-header" class="section-padding-x pt-4 pb-4 md:w-2/5">
         <div class="container max-w-screen-sm">
             <div class="flex items-center gap-2 border-b-2 border-b-gray-400 pb-2">
-                <img src="<?= $model["user"]["profile_photo"] ?? "/images/profile/profile.svg" ?>"
-                     alt="Foto profil <?= $model["user"]["username"] ?? "" ?>" class="rounded-full w-10 aspect-square"/>
-                <p class="small-font-size font-semibold"><?= $model["user"]["username"] ?? "" ?></p>
+                <img src="/images/profile/<?= $post["user"]->profilePhoto ?? "profile.svg" ?>"
+                     alt="Foto profil <?= $post["user"]->profilePhoto ?? "user" ?>" class="rounded-full w-10 aspect-square"/>
+                <p class="small-font-size font-semibold"><?= $post["user"]->username ?? "user" ?></p>
             </div>
             <div class="mb-2 mt-2">
                 <h1 class="product-title-font-size font-bold">
