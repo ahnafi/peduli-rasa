@@ -16,7 +16,7 @@ include_once __DIR__ . "/Components/utils.php";
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.webp"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
@@ -38,7 +38,7 @@ Flasher::FLASH();
 <nav class="bg-light-base fixed w-full z-[999] normal-font-size">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="/logo.png" class="w-12" alt="PeduliRasa Logo"/>
+            <img src="/favicon.webp" class="w-12" alt="PeduliRasa Logo"/>
         </a>
         <div class="flex lg:order-2 gap-8">
             <div>

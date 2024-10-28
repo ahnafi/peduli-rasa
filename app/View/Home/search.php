@@ -2,14 +2,12 @@
 
 $posts = $model['posts'] ?? [];
 
-$category = ["Makanan Basah", "Makanan Kering", "Minuman", "Jumat Berkah", "Peduli Sosial", "Bakti Sosial"];
-$num = $_GET["categories"] ?? "";
+$category = ["Makanan Basah", "Makanan Kering", "Minuman", "Jumat Berkah", "Peduli Sosial", "Bakti Sosial","Semua Kategori"];
+$num = $_GET["categories"] ?? 7;
 $text = "Kategori \"";
 
-var_dump($_GET["categories"]);
-
-if($num == "1,2,3"){
-    $text = "Semua Kategori";
+if($num == "1,2,3" or $num == "4,5,6"){
+    $text = $category[6];
 }else {
     $text .= $category[$num - 1] . "\"";
 }
