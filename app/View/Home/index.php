@@ -7,7 +7,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
 <div class="pt-8 pb-8 section-padding-x">
     <div class="container max-w-screen-xl">
         <div class="mb-8">
-            <h2 class="sub-header-font-size font-bold mb-2">Makanan dan Minuman</h2>
+            <h2 class="sub-header-font-size font-bold mb-2">Makanan dan minuman</h2>
             <div class="flex items-center justify-between mb-4">
                 <div class="flex justify-between items-center">
                     <ul class="items-center justify-between gap-4 hidden md:flex">

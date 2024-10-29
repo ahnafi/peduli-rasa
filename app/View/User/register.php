@@ -2,7 +2,7 @@
     <div class="flex justify-center items-center">
         <!-- Left: Image -->
         <div class="w-1/2 h-screen hidden lg:block">
-            <img src="/images/backgrounds/visi-misi.webp" alt="Placeholder Image"
+            <img src="/images/backgrounds/people-bringing-supplies-neighbors.jpg" alt="Placeholder Image"
                  class="object-cover w-full h-full rounded-r-3xl"/>
         </div>
         <!-- Right: Login Form -->

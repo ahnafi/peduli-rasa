@@ -184,14 +184,12 @@ $faq = [
         <div class="flex flex-col md:flex-row">
             <div class="md:w-1/3 w-full">
                 <p class="normal-font-size">
-                    We're here to assist you! If you have any questions or need
-                    assistance, please feel free to reach out to us. You can also email us
-                    at
+                    Kami siap membantu Anda! Jika Anda memiliki pertanyaan atau memerlukan bantuan, jangan ragu untuk menghubungi kami. Anda juga dapat mengirim email kepada kami di
                     <a href="mailto:contact@example.com" class="font-semibold border-b-4 border-green-400">
-                        contact@example.com
+                        admin@pedulirasa.co.id
                     </a>
                 </p>
-                <p class="normal-font-size mt-2">Connect with us on social media:</p>
+                <p class="normal-font-size mt-2">Tetap terhubung dengan sosial media kami:</p>
                 <span class="inline-flex mt-2 justify-center sm:justify-start">
                 <a class="text-gray-500 hover:text-gray-900" target="_blank" href="https://twitter.com/example">
             <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6"
@@ -220,7 +218,7 @@ $faq = [
                     <div class="w-full">
                         <div class="relative">
                             <label for="name" class="text-dark-base normal-font-size font-semibold">
-                                Your Name
+                                Nama Lengkap
                             </label>
                             <input type="text" id="name" name="name" required="" placeholder="Masukkan nama..." class="w-full bg-white rounded border border-gray-400 outline-none py-2 px-3"/>
                         </div>
@@ -228,7 +226,7 @@ $faq = [
                     <div class="w-full">
                         <div class="relative">
                             <label for="email" class="text-dark-base normal-font-size font-semibold">
-                                Your Email
+                                Email
                             </label>
                             <input type="email" id="email" name="email" required="" placeholder="Masukkan email..." class="w-full bg-white rounded border border-gray-400 outline-none py-2 px-3" />
                         </div>
@@ -236,7 +234,7 @@ $faq = [
                     <div class="w-full">
                         <div class="relative">
                             <label for="message" class="text-dark-base normal-font-size font-semibold">
-                                Your Message
+                                Pesan
                             </label>
                             <textarea id="message" name="message" required="" placeholder="Masukkan pesan..." class="w-full bg-white rounded border border-gray-400 outline-none py-2 px-3 h-32">
                             </textarea>

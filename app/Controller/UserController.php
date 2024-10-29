@@ -33,7 +33,7 @@ class UserController
     public function register(): void
     {
         View::render('User/register', [
-            'title' => 'Register new User'
+            'title' => 'Daftar'
         ]);
     }
 
@@ -57,7 +57,7 @@ class UserController
     public function login(): void
     {
         View::render('User/login', [
-            "title" => "Login user"
+            "title" => "Masuk"
         ]);
     }
 
@@ -88,7 +88,7 @@ class UserController
         $user = $this->sessionService->current();
 
         View::render('User/profile', [
-            "title" => "Update user profile",
+            "title" => "Ubah Profile Pengguna",
             "user" => [
                 "id" => $user->id,
                 "email" => $user->email,
@@ -139,7 +139,7 @@ class UserController
     {
         $user = $this->sessionService->current();
         View::render('User/password', [
-            "title" => "Update user password",
+            "title" => "Ubah Password",
             "user" => [
                 "id" => $user->id,
                 "email" => $user->email,
@@ -171,7 +171,7 @@ class UserController
     public function otp (){
 
         $model = [
-            "title" => "Verification otp",
+            "title" => "Verifikasi OTP",
         ];
 
         View::render('User/otp', $model);
@@ -179,7 +179,7 @@ class UserController
 
     public function verify(): void {
         $model = [
-          "title" => "Verification otp",
+          "title" => "Verifikasi OTP",
         ];
 
         View::render('User/verification', $model);

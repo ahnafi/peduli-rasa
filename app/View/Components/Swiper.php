@@ -1,21 +1,20 @@
 <?php
 $image = [
     [
-        "img" => "/images/banners/bengkel-motor.jpg",
-        "alt" => "bengkel motor"
-    ],
-    [
-        "img" => "/images/banners/laundry.jpg",
-        "alt" => "laundry"
-
-    ],
-    [
-        "img" => "/images/banners/warung-makan.webp",
-        "alt" => "warung makan"
+        "img" => "/images/banners/festifal-berbagi-makanan.jpg",
+        "alt" => "Festifal Berbagi Makanan"
     ],
     [
         "img" => "/images/banners/buka-bersama.png",
-        "alt" => "buka bersama"
+        "alt" => "Buka Bersama"
+    ],
+    [
+        "img" => "/images/banners/warung-makan.webp",
+        "alt" => "Warung Makan"
+    ],
+    [
+            "img" => "/images/banners/bakti-sosial-bersama.jpg",
+        "alt" => "Bakti Sosial Bersama"
     ]
 ];
 ?>

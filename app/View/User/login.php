@@ -2,7 +2,7 @@
     <div class="flex justify-center items-center flex-row-reverse">
         <!-- Left: Image -->
         <div class="w-1/2 h-screen hidden lg:block">
-            <img src="/images/backgrounds/visi-misi.webp" alt="Login Image" class="object-cover w-full h-full rounded-l-3xl" />
+            <img src="/images/backgrounds/charity-foodbank-volunteer.jpg" alt="Login Image" class="object-cover w-full h-full rounded-l-3xl" />
         </div>
         <!-- Right: Login Form -->
         <div class="lg:p-24 lg:pt-8 px-4 w-full lg:w-1/2 flex justify-center items-center">
