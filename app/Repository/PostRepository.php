@@ -143,6 +143,36 @@ class PostRepository
         return $posts;
     }
 
+    public function getTotalPosts(?string $title, ?array $categories): int
+    {
+        // Buat query untuk menghitung jumlah total postingan yang sesuai dengan filter
+        $query = "SELECT COUNT(*) as total FROM posts WHERE 1=1";
+        $params = [];
+
+        // Tambahkan kondisi jika title tidak null
+        if ($title != null) {
+            $query .= " AND title LIKE ?";
+            $params[] = '%' . $title . '%';
+        }
+
+        // Tambahkan kondisi untuk kategori jika ada
+        if (!empty($categories)) {
+            $query .= " AND category_id IN (" . implode(',', array_fill(0, count($categories), '?')) . ")";
+            $params = array_merge($params, $categories);
+        }
+
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameters
+        foreach ($params as $index => $param) {
+            $statement->bindValue($index + 1, $param);
+        }
+
+        $statement->execute();
+        $result = $statement->fetch();
+        return (int) $result['total'];
+    }
+
     public function update(Post $post): Post
     {
         $postDate = $post->postDate->format('Y-m-d H:i:s');

@@ -327,6 +327,9 @@ class PostService
         }
     }
 
+    public function totalPosts(?string $title, ?array $categories): int {
+        return $this->postRepository->getTotalPosts($title, $categories);
+    }
 
     private function ValidateSearchPostRequest(SearchPostRequest $request): void
     {
