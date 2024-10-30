@@ -35,7 +35,7 @@ use PeduliRasa\App\Flasher;
 
 Flasher::FLASH();
 ?>
-<nav class="bg-light-base fixed w-full z-[999] normal-font-size">
+<nav class="bg-light-base fixed w-full z-[998] normal-font-size">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/favicon.webp" class="w-12" alt="PeduliRasa Logo"/>
@@ -82,7 +82,7 @@ Flasher::FLASH();
             <div class="items-center justify-between gap-8 hidden lg:flex">
                 <?php if(isset($user)) : ?>
                     <a href="/profile" class="flex justify-center items-center gap-2 ">
-                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-9 rounded-full">
+                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-9 rounded-full aspect-square">
                     </a>
                 <?php else:?>
                 <a href="/login" class="block text-dark-base rounded-lg border border-dark-base py-1 px-3 font-bold">

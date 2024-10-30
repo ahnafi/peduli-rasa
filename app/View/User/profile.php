@@ -15,7 +15,7 @@ $user = $model["user"] ?? null;
 
             <!-- Aside -->
             <aside id="asideMenu"
-                   class="fixed top-16 pt-4 md:pt-0 left-0 h-full w-64 bg-white transform -translate-x-full transition-transform md:w-1/3 lg:w-1/4 md:translate-x-0 md:static md:block pr-8 border-r border-indigo-100 z-50">
+                   class="fixed top-16 pt-4 md:pt-0 left-0 h-full w-64 bg-white transform -translate-x-full transition-transform md:w-1/3 lg:w-1/4 md:translate-x-0 md:static md:block pr-8 border-r border-indigo-100 z-[900]">
                 <div class="sticky flex flex-col gap-2 text-sm">
                     <h2 class="pl-3 mb-4 text-2xl font-semibold">Pengaturan</h2>
                     <a href="/profile" class="flex items-center px-3 py-2.5 font-semibold ">
