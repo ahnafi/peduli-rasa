@@ -1,5 +1,4 @@
 <?php
-
 $posts = $model['posts'] ?? [];
 
 $category = ["Makanan Basah", "Makanan Kering", "Minuman", "Jumat Berkah", "Peduli Sosial", "Bakti Sosial", "Semua Kategori"];
@@ -23,8 +22,6 @@ $next_page = $page + 1;
 $prev_page = $page - 1 > 0 ? $page - 1 : 1;
 $base_url = strtok($current_path, '?');
 $query_params = $_GET;
-unset($query_params['page']); // Remove 'page' from current query params if it exists
-
 ?>
 
 <div class="pt-20 pb-8 section-padding-x min-h-screen">
@@ -33,17 +30,6 @@ unset($query_params['page']); // Remove 'page' from current query params if it e
             <h2 class="sub-header-font-size font-bold mb-2">
                 <?= isset($_GET["title"]) ? "Hasil pencarian dari \"" . $_GET["title"] . "\"" : "$text" ?>
             </h2>
-            <div class="pagination-buttons">
-                <?php
-                // Add pagination links
-                $query_params['page'] = $prev_page;
-                $prev_link = $base_url . '?' . http_build_query($query_params);
-                $query_params['page'] = $next_page;
-                $next_link = $base_url . '?' . http_build_query($query_params);
-                ?>
-                <a href="<?= $prev_link ?>" class="pagination-btn">Previous</a>
-                <a href="<?= $next_link ?>" class="pagination-btn">Next</a>
-            </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
                 <?php foreach ($posts as $post) : ?>
                     <div class="card max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
