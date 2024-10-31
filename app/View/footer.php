@@ -2,7 +2,7 @@
     <div class="max-w-screen-xl container overflow-hidden">
         <nav class="flex flex-wrap justify-center gap-4">
             <a href="/" class="text-base leading-6 small-font-size">
-                Home
+                Beranda
             </a>
             <a href="/ayo-berbagi" class="text-base leading-6 small-font-size">
                 Ayo Berbagi

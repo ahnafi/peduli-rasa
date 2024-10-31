@@ -30,24 +30,12 @@ unset($query_params['page']); // Remove 'page' from current query params if it e
 
 ?>
 
-<div class="pt-20 pb-8 section-padding-x min-h-screen">
+<div class="pt-24 pb-8 section-padding-x min-h-screen">
     <div class="container max-w-screen-xl">
         <div class="mb-8">
             <h2 class="sub-header-font-size font-bold mb-2">
                 <?= isset($_GET["title"]) ? "Hasil pencarian dari \"" . $_GET["title"] . "\"" : "$text" ?>
             </h2>
-            <div class="pagination-buttons mb-4 flex justify-between">
-                <?php if ($page > 1): ?>
-                    <?php $query_params['page'] = $prev_page; ?>
-                    <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="pagination-btn">Previous</a>
-                <?php endif; ?>
-
-                <?php if ($page < $totalPages): ?>
-                    <?php $query_params['page'] = $next_page; ?>
-                    <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="pagination-btn">Next</a>
-                <?php endif; ?>
-            </div>
-
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
                 <?php foreach ($posts as $post) : ?>
                     <div class="card max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
@@ -76,13 +64,35 @@ unset($query_params['page']); // Remove 'page' from current query params if it e
 
             <!-- Pagination with page numbers -->
             <div class="pagination-numbers mt-6 text-center">
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <?php $query_params['page'] = $i; ?>
-                    <a href="<?= $base_url . '?' . http_build_query($query_params) ?>"
-                       class="pagination-number <?= $i === $page ? 'active' : '' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
+                <ul class="inline-flex -space-x-px">
+                    <?php if ($page > 1): ?>
+                        <?php $query_params['page'] = $prev_page; ?>
+                        <li>
+                            <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="flex items-center justify-center px-4 h-10 text-gray-500 bg-white border border-gray-300 rounded-l hover:bg-gray-100">
+                                Previous
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <?php $query_params['page'] = $i; ?>
+                        <li>
+                            <a href="<?= $base_url . '?' . http_build_query($query_params) ?>"
+                               class="flex items-center justify-center px-4 h-10 leading-tight <?= $i === $page ? 'text-white bg-blue-600 border border-blue-600' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100' ?> <?= $i === 1 ? 'rounded-l' : '' ?> <?= $i === $totalPages ? 'rounded-r' : '' ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <?php if ($page < $totalPages): ?>
+                        <?php $query_params['page'] = $next_page; ?>
+                        <li>
+                            <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="flex items-center justify-center px-4 h-10 text-gray-500 bg-white border border-gray-300 rounded-r hover:bg-gray-100">
+                                Next
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
     </div>

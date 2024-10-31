@@ -120,7 +120,7 @@ Flasher::FLASH();
             <ul class="flex flex-col p-4 lg:p-0 mt-4 font-medium border rounded-lg lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0">
                 <li>
                     <a href="/" class="block py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0">
-                        Home
+                        Beranda
                     </a>
                 </li>
                 <li>
