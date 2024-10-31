@@ -1,5 +1,9 @@
 <?php
+
 $posts = $model['posts'] ?? [];
+$totalPosts = $model['all_posts'] ?? 0;
+$perPage = 20;
+$totalPages = (int) ceil($totalPosts / $perPage);
 
 $category = ["Makanan Basah", "Makanan Kering", "Minuman", "Jumat Berkah", "Peduli Sosial", "Bakti Sosial", "Semua Kategori"];
 $num = $_GET["categories"] ?? 7;
@@ -22,6 +26,8 @@ $next_page = $page + 1;
 $prev_page = $page - 1 > 0 ? $page - 1 : 1;
 $base_url = strtok($current_path, '?');
 $query_params = $_GET;
+unset($query_params['page']); // Remove 'page' from current query params if it exists
+
 ?>
 
 <div class="pt-20 pb-8 section-padding-x min-h-screen">
@@ -30,6 +36,18 @@ $query_params = $_GET;
             <h2 class="sub-header-font-size font-bold mb-2">
                 <?= isset($_GET["title"]) ? "Hasil pencarian dari \"" . $_GET["title"] . "\"" : "$text" ?>
             </h2>
+            <div class="pagination-buttons mb-4 flex justify-between">
+                <?php if ($page > 1): ?>
+                    <?php $query_params['page'] = $prev_page; ?>
+                    <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="pagination-btn">Previous</a>
+                <?php endif; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <?php $query_params['page'] = $next_page; ?>
+                    <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="pagination-btn">Next</a>
+                <?php endif; ?>
+            </div>
+
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between">
                 <?php foreach ($posts as $post) : ?>
                     <div class="card max-w-[300px] aspect-square bg-white border border-gray-200 rounded-lg shadow">
@@ -54,6 +72,17 @@ $query_params = $_GET;
                         </div>
                     </div>
                 <?php endforeach; ?>
+            </div>
+
+            <!-- Pagination with page numbers -->
+            <div class="pagination-numbers mt-6 text-center">
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <?php $query_params['page'] = $i; ?>
+                    <a href="<?= $base_url . '?' . http_build_query($query_params) ?>"
+                       class="pagination-number <?= $i === $page ? 'active' : '' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
             </div>
         </div>
     </div>

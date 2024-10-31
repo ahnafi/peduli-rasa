@@ -251,6 +251,7 @@ class HomeController
             $response = $this->postService->search($request);
 
             $model["posts"] = $response->posts;
+            $model["all_posts"] = $this->postService->totalPosts($request->title,$request->categories);
 
             View::render('Home/search', model: $model);
         } catch (ValidationException $e) {
