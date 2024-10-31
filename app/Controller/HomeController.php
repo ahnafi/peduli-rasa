@@ -343,13 +343,22 @@ class HomeController
 
         $request = new GetPostUserRequest();
         $request->userId = $user->id;
-        $request->page = $_GET['page'] ?? 1;
+        $request->page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         $response = $this->postService->findByUserId($request);
-
+        $total = $this->postService->totalPostsByUser($user->id);
         $model["posts"] = $response->posts;
+        $model["total_posts"] = $total;
 
         View::render('Home/manage-posts', model: $model);
+    }
+
+    public function error ():void{
+        $model = [
+            "title" => "error page"
+        ];
+
+        View::render("error", model: $model);
     }
 
 }

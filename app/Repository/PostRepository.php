@@ -89,6 +89,31 @@ class PostRepository
         return $posts;
     }
 
+    public function getTotalPostByUser(int $userId): int
+    {
+        $query = "SELECT post_id, title, description, post_date, location, user_id, category_id FROM posts WHERE user_id = ? ";
+
+        $statement = $this->connection->prepare($query);
+        $statement->execute([$userId]);
+
+        $posts = [];
+        while ($rows = $statement->fetchAll()) {
+            foreach ($rows as $row) {
+                $post = new Post();
+                $post->id = $row['post_id'];
+                $post->title = $row['title'];
+                $post->description = $row['description'];
+                $post->postDate = new \DateTime($row['post_date']);
+                $post->location = $row['location'];
+                $post->userId = $row['user_id'];
+                $post->categoryId = $row['category_id'];
+                $posts[] = $post;
+            }
+        }
+
+        return count($posts);
+    }
+
 
     public function search(?string $title, ?array $categories, int $page = 1): array
     {

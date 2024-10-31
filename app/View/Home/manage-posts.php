@@ -1,5 +1,20 @@
 <?php
-$posts = $model["posts"] ?? [];
+$posts = $model["posts"] ?? []; // Semua post
+$totalPosts = $model["total_posts"] ?? 0;
+$perPage = 20;
+
+$totalPages = (int) ceil($totalPosts / $perPage);
+
+$page = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+
+$startIndex = ($page - 1) * $perPage;
+$postsOnCurrentPage = array_slice($posts, $startIndex, $perPage);
+
+$base_url = strtok($_SERVER["REQUEST_URI"], '?');
+$query_params = $_GET;
+unset($query_params['page']);
+$prev_page = $page > 1 ? $page - 1 : null;
+$next_page = $page < $totalPages ? $page + 1 : null;
 ?>
 
 <div id="popup-modal" tabindex="-1"
@@ -137,7 +152,45 @@ $posts = $model["posts"] ?? [];
                     <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+                <!-- Pagination with page numbers -->
+                <!-- Pagination dengan nomor halaman -->
+                <div class="pagination-numbers mt-6 text-center">
+                    <ul class="inline-flex -space-x-px">
+                        <!-- Tombol Previous hanya ditampilkan jika halaman saat ini lebih dari 1 -->
+                        <?php if ($page > 1): ?>
+                            <?php $query_params['page'] = $prev_page; ?>
+                            <li>
+                                <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="flex items-center justify-center px-4 h-10 text-gray-500 bg-white border border-gray-300 rounded-l hover:bg-gray-100">
+                                    Previous
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
+                        <!-- Menampilkan tombol untuk setiap halaman -->
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <?php $query_params['page'] = $i; ?>
+                            <li>
+                                <a href="<?= $base_url . '?' . http_build_query($query_params) ?>"
+                                   class="flex items-center justify-center px-4 h-10 leading-tight <?= $i === $page ? 'text-white bg-blue-600 border border-blue-600' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100' ?> <?= $i === 1 ? 'rounded-l' : '' ?> <?= $i === $totalPages ? 'rounded-r' : '' ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <!-- Tombol Next hanya ditampilkan jika halaman saat ini kurang dari total halaman -->
+                        <?php if ($page < $totalPages): ?>
+                            <?php $query_params['page'] = $next_page; ?>
+                            <li>
+                                <a href="<?= $base_url . '?' . http_build_query($query_params) ?>" class="flex items-center justify-center px-4 h-10 text-gray-500 bg-white border border-gray-300 rounded-r hover:bg-gray-100">
+                                    Next
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>

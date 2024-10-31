@@ -23,7 +23,7 @@ Router::add('GET', '/', HomeController::class, 'index');
 Router::add('GET', '/tentang-kami', HomeController::class, 'about');
 Router::add("GET","/ayo-berbagi", HomeController::class,"upload",[MustLoginMiddleware::class]);
 Router::add("POST","/ayo-berbagi", HomeController::class,"postUpload",[MustLoginMiddleware::class]);
-Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail");
+Router::add("GET","/post/detail/([0-9]*)", HomeController::class,"detail",[MustLoginMiddleware::class]);
 Router::add("GET","/post/search", HomeController::class,"search");
 Router::add("POST","/post/delete", HomeController::class,"postDelete",[MustLoginMiddleware::class]);
 Router::add("GET","/post/update/([0-9]*)", HomeController::class,"update",[MustLoginMiddleware::class]);
@@ -42,5 +42,7 @@ Router::add('GET', '/profile/password', UserController::class, 'updatePassword',
 Router::add('POST', '/profile/password', UserController::class, 'postUpdatePassword', [MustLoginMiddleware::class]);
 Router::add('GET', '/register/verify', UserController::class, 'verify', [MustNotLoginMiddleware::class]);
 Router::add('GET', '/register/otp', UserController::class, 'otp', [MustNotLoginMiddleware::class]);
+
+Router::add("GET","/404",HomeController::class,"error");
 
 Router::run();

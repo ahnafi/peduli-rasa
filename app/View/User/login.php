@@ -30,7 +30,7 @@
                         </div>
                         <!-- Forgot Password Link -->
                         <div class="text-blue-500 ml-auto">
-                            <a href="/login/forgot" class="hover:underline">Forgot Password?</a>
+                            <a href="/login" class="hover:underline">Lupa Password?</a>
                         </div>
                     </div>
                     <!-- Login Button -->

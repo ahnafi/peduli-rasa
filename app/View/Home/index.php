@@ -1,6 +1,17 @@
 <?php
 $foodAndDrink = $model['foodAndDrink'] ?? [];
 $events = $model['activity'] ?? [];
+
+if(count($foodAndDrink) > 8){
+    $foodAndDrink = array_slice($foodAndDrink, 0, 8);
+}
+
+if(count($events) > 8){
+    $events = array_slice($events, 0, 8);
+}
+
+// Sekarang $foodAndDrink dan $events masing-masing memiliki maksimal 8 elemen
+
 include_once __DIR__ . "/../Components/Swiper.php";
 ?>
 
@@ -91,7 +102,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
                                 <span><?= $post->location ?></span>
                             </p>
                             <h5 class="card-title-font-size font-bold tracking-tight line leading-3 text-dark-base">
-                                <a href="/post/detail/<?= $post->id ?>"><?= $post->title ?></a>
+                                <a href="/post/detail/<?= $post->id ?>"><?= truncateText($post->title,20) ?></a>
                             </h5>
                             <p class="description-card-font-size font-normal text-gray-700">
                                 <?= truncateText($post->description, 35) ?>

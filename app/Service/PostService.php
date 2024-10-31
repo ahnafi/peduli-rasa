@@ -331,6 +331,11 @@ class PostService
         return $this->postRepository->getTotalPosts($title, $categories);
     }
 
+    public function totalPostsByUser(?int $userId): int
+    {
+        return $this->postRepository->getTotalPostByUser($userId);
+    }
+
     private function ValidateSearchPostRequest(SearchPostRequest $request): void
     {
         if ($request->title == null && empty($request->categories)) {

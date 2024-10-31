@@ -2,6 +2,8 @@
 
 $post = null;
 $images = [];
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+$url = "$protocol://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 if (isset($model["post"])) {
     $post = $model["post"];
@@ -85,7 +87,7 @@ if (isset($model["post"])) {
                 </p>
             </div>
             <div class="flex gap-2 items-center mb-4">
-                <a target="_blank" href="https://wa.me/<?= $model["user"]["phone_number"] ?? "" ?>" class="rounded-lg bg-green-base text-light-base h-9 px-2 items-center flex gap-2" >
+                <a target="_blank" href="https://wa.me/<?= $post["user"]->phoneNumber ?? "" ?>?text=Apakah postingan ini masih berlaku?<?=$url?>" class="rounded-lg bg-green-base text-light-base h-9 px-2 items-center flex gap-2" >
                     <img src="/images/icons/whatsapp.png" alt="Whatsapp Icon" class="h-6 w-6 aspect-square" />
                     <span class="normal-font-size">Kirim pesan</span>
                 </a>
@@ -149,15 +151,32 @@ if (isset($model["post"])) {
 
     function copyLink() {
         let link = window.location.href;
-        navigator.clipboard.writeText(link);
-
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "link berhasil dicopy",
-            showConfirmButton: false,
-            timer: 1000
-        });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            // Metode modern
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Link berhasil dicopy",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }).catch(err => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Link gagal dicopy",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            });
+        } else {
+            // Fallback
+            Swal.fire({
+                icon: "error",
+                title: "Link gagal dicopy",
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }
     }
 
     const createdAt = document.getElementById("createAt").innerText;
