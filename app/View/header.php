@@ -138,7 +138,7 @@ Flasher::FLASH();
                 <?php if(isset($user)) : ?>
                 <li>
                     <a href="/profile" class="py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 lg:hidden flex justify-start items-center gap-2 w-fit">
-                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-6 rounded-full">
+                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-6 rounded-full aspect-square">
                         <?= $username ?>
                     </a>
                 </li>

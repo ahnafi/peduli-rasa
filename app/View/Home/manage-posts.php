@@ -141,7 +141,7 @@ $next_page = $page < $totalPages ? $page + 1 : null;
                                 </p>
                                 <h5 class="card-title-font-size font-bold tracking-tight text-dark-base">
                                     <a href="/post/detail/<?= $post->id ?>">
-                                        <?= $post->title ?>
+                                        <?= truncateText($post->title,15) ?>
                                     </a>
                                 </h5>
                                 <p class="description-card-font-size font-normal text-gray-700">
