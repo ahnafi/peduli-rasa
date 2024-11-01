@@ -154,7 +154,7 @@ if (isset($model["post"])) {
         let link = window.location.href;
         if (navigator.clipboard && navigator.clipboard.writeText) {
             // Metode modern
-            navigator.clipboard.writeText(text).then(() => {
+            navigator.clipboard.writeText(link).then(() => {
                 Swal.fire({
                     icon: "success",
                     title: "Link berhasil dicopy",

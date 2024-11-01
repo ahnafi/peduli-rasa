@@ -893,14 +893,6 @@ video {
   max-height: 200px;
 }
 
-.max-h-\[640px\] {
-  max-height: 640px;
-}
-
-.max-h-\[540px\] {
-  max-height: 540px;
-}
-
 .max-h-\[720px\] {
   max-height: 720px;
 }

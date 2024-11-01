@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 31, 2024 at 05:19 PM
+-- Generation Time: Nov 01, 2024 at 02:40 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -178,10 +178,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `user_id`) VALUES
-('6723a4d67b0ca', 4),
 ('6723ac7b8a94e', 4),
 ('6723b1f4d48d9', 4),
 ('6723b81336935', 4),
+('67243dd463c5b', 4),
 ('6723b728f018f', 5);
 
 -- --------------------------------------------------------
@@ -205,7 +205,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `phone_number`, `profile_photo`, `created_at`) VALUES
-(4, 'dumy', 'dumy@dumy.com', '$2y$10$UOCAL5ub7ICkuyjuTPX/PelJ6.7LOmYUBKsSV4phhRI34CtPf/XRu', '+6281226998037', '6723ae92a1ec8.jpg', '2024-10-31 14:26:48'),
+(4, 'dumy', 'dumy@dumy.com', '$2y$10$UOCAL5ub7ICkuyjuTPX/PelJ6.7LOmYUBKsSV4phhRI34CtPf/XRu', '+6281226998037', '67243e03cae4c.jpg', '2024-10-31 14:26:48'),
 (5, 'Sulthon', 'sulthon@example.com', '$2y$10$XTIFm9fzMZFuUVJp.p8wJutZD8riFKr1xO.rMun8Z0rWFpxC//bs.', '+62812345654', NULL, '2024-10-31 16:58:03');
 
 --
@@ -261,13 +261,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `post_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `post_images`
 --
 ALTER TABLE `post_images`
-  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `users`
