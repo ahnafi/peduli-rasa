@@ -37,3 +37,33 @@
 .extra-small-font-size {
     @apply text-xs lg:text-sm;
 }
+
+.file-preview {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.preview-image {
+    width: 196px;
+    height: 128px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.remove-button {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+}

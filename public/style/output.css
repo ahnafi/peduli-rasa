@@ -893,8 +893,24 @@ video {
   max-height: 200px;
 }
 
+.max-h-\[640px\] {
+  max-height: 640px;
+}
+
+.max-h-\[540px\] {
+  max-height: 540px;
+}
+
+.max-h-\[720px\] {
+  max-height: 720px;
+}
+
 .min-h-\[480px\] {
   min-height: 480px;
+}
+
+.min-h-\[640px\] {
+  min-height: 640px;
 }
 
 .min-h-screen {
@@ -1429,6 +1445,11 @@ video {
   padding-bottom: 1rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pb-12 {
   padding-bottom: 3rem;
 }
@@ -1520,6 +1541,11 @@ video {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.text-7xl {
+  font-size: 4.5rem;
+  line-height: 1;
 }
 
 .text-base {
@@ -1869,6 +1895,37 @@ video {
   }
 }
 
+.file-preview {
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+}
+
+.preview-image {
+  width: 196px;
+  height: 128px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.remove-button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4d4d;
+  color: white;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -2214,6 +2271,16 @@ video {
     padding: 6rem;
   }
 
+  .lg\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .lg\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
   .lg\:pb-0 {
     padding-bottom: 0px;
   }
@@ -2232,6 +2299,11 @@ video {
 
   .lg\:pt-\[70px\] {
     padding-top: 70px;
+  }
+
+  .lg\:text-9xl {
+    font-size: 8rem;
+    line-height: 1;
   }
 }
 

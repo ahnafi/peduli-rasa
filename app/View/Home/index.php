@@ -203,7 +203,7 @@ include_once __DIR__ . "/../Components/Swiper.php";
                                 <span><?= $event->location ?></span>
                             </p>
                             <h5 class="card-title-font-size font-bold tracking-tight text-dark-base">
-                                <a href="/post/detail/<?= $event->id ?>"><?= $event->title ?></a>
+                                <a href="/post/detail/<?= $event->id ?>"><?= truncateText($event->title,20) ?></a>
                             </h5>
                             <p class="truncate text-ellipsis description-card-font-size font-normal text-gray-700 ">
                                 <?= truncateText($event->description, 35) ?>

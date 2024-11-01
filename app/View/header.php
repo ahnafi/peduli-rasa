@@ -138,7 +138,7 @@ Flasher::FLASH();
                 <?php if(isset($user)) : ?>
                 <li>
                     <a href="/profile" class="py-2 px-3 text-dark-base rounded font-bold md:py-1 md:px-2 lg:p-0 lg:hidden flex justify-start items-center gap-2 w-fit">
-                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-6 rounded-full">
+                        <img src="/images/profile/<?= $profilePhoto ?>" alt="photo profile <?= $username?>" class="w-6 aspect-square rounded-full">
                         <?= $username ?>
                     </a>
                 </li>
@@ -152,7 +152,7 @@ Flasher::FLASH();
                 <li>
                     <a href="/register"
                        class="block py-2 px-3 rounded font-bold md:py-1 md:px-2 lg:p-0 bg-green-base text-light-base lg:hidden">
-                        Masuk
+                        Daftar
                     </a>
                 </li>
                 <?php endif;?>

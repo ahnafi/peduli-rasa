@@ -48,6 +48,7 @@ if (isset($model["post"])) {
             height: 100%;
             opacity: 0.4;
             background: url("/images/posts/<?= $image->imageName ?>") no-repeat center center;
+            background-size: cover;
             z-index: -1;
         }
     }
@@ -61,7 +62,7 @@ if (isset($model["post"])) {
                 <?php foreach ($images as $image) : ?>
                     <div class="swiper-slide">
                         <img src="/images/posts/<?= $image->imageName ?>" alt="banner <?= $post["title"] ?>"
-                             class="max-w-md object-cover rounded-lg"/>
+                             class="max-w-md object-cover rounded-lg max-h-[720px]"/>
                     </div>
                 <?php endforeach; ?>
             </div>
