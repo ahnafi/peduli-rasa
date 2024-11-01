@@ -52,7 +52,7 @@ unset($query_params['page']);
                                 <span><?= $post->location ?></span>
                             </p>
                             <h5 class="card-title-font-size font-bold tracking-tight line leading-3 text-dark-base">
-                                <a href="/post/detail/<?= $post->id ?>"><?= $post->title ?></a>
+                                <a href="/post/detail/<?= $post->id ?>"><?= truncateText($post->title,20) ?></a>
                             </h5>
                             <p class="description-card-font-size font-normal text-gray-700">
                                 <?= truncateText($post->description, 35) ?>
