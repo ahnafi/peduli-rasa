@@ -26,7 +26,7 @@ $next_page = $page + 1;
 $prev_page = $page - 1 > 0 ? $page - 1 : 1;
 $base_url = strtok($current_path, '?');
 $query_params = $_GET;
-unset($query_params['page']); // Remove 'page' from current query params if it exists
+unset($query_params['page']);
 
 ?>
 
