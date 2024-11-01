@@ -3,5 +3,5 @@
 composer.lock
 package-lock.json
 node_modules
-#public/images/posts
-#public/images/profile
+public/images/posts
+public/images/profile
