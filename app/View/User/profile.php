@@ -70,7 +70,7 @@ $user = $model["user"] ?? null;
                 <div class="">
                     <button type="submit"
                             class="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">
-                        Ubah Akun
+                        Ubah Profil
                     </button>
                 </div>
             </form>

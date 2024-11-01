@@ -56,24 +56,24 @@ $location = $_Post["location"] ?? "";
                 </div>
                 <div class="flex items-center justify-center w-full sm:col-span-2">
                     <label for="dropzone-file"
-                           class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                             fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2">
-                            </path>
-                        </svg>
-                        <span class="mb-2 text-gray-500">
-                            <span class="font-semibold">Click to upload</span> or drag and
-                            drop
-                        </span>
-                        <span class="text-xs text-gray-500">
-                            SVG, PNG, JPG or GIF (MAX. 800x400px)
-                        </span>
+                       class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2">
+                        </path>
+                    </svg>
+                    <span class="mb-2 text-gray-500">
+                    <span class="font-semibold">Click to upload</span> or drag anddrop</span>
+                    <span class="text-xs text-gray-500">
+                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                    </span>
 
-                        <input id="dropzone-file" type="file" name="photos[]" class="hidden"  multiple/>
-                    </label>
-                </div>
+                    <span id="file-count" class="mt-2 text-sm text-gray-500"></span>
+
+                    <input id="dropzone-file" type="file" name="photos[]" class="hidden" multiple onchange="updateFileCount()"/>
+                </label>
+            </div>
             </div>
             <button type="submit" class="text-light-base bg-blue-base inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg px-5 py-2.5 text-center" >
                 <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
@@ -88,3 +88,12 @@ $location = $_Post["location"] ?? "";
         </form>
     </div>
 </section>
+
+<script>
+    function updateFileCount() {
+        const fileInput = document.getElementById('dropzone-file');
+        const fileCountDisplay = document.getElementById('file-count');
+        const count = fileInput.files.length;
+        fileCountDisplay.textContent = count > 0 ? `${count} file(s) selected` : '';
+    }
+</script>

@@ -37,9 +37,9 @@ $user = $model["user"] ?? null;
                          class="w-36 aspect-square rounded-full"/>
                     <div class="flex flex-col gap-4">
                         <div class="bg-blue-base py-2 px-4 rounded-lg block">
-                            <label for="profilePhoto" class="font-semibold cursor-pointer text-light-base">
-                                Ganti Foto Profil</label>
-                            <input type="file" name="profilePhoto" id="profilePhoto" class="hidden"/>
+                            <a href="/profile" class="font-semibold cursor-pointer text-light-base">
+                                Ganti Foto Profil
+                            </a>
                         </div>
                         <div class="bg-red-600 py-2 px-4 rounded-lg block">
                             <a href="/profile/password" class="font-semibold cursor-pointer text-light-base">

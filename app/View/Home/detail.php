@@ -87,7 +87,7 @@ if (isset($model["post"])) {
                 </p>
             </div>
             <div class="flex gap-2 items-center mb-4">
-                <a target="_blank" href="https://wa.me/<?= $post["user"]->phoneNumber ?? "" ?>?text=Apakah postingan ini masih berlaku?<?=$url?>" class="rounded-lg bg-green-base text-light-base h-9 px-2 items-center flex gap-2" >
+                <a target="_blank" href="https://wa.me/<?= $post["user"]->phoneNumber ?? "" ?>?text=Apakah postingan ini masih berlaku?%0A<?=$url?>" class="rounded-lg bg-green-base text-light-base h-9 px-2 items-center flex gap-2" >
                     <img src="/images/icons/whatsapp.png" alt="Whatsapp Icon" class="h-6 w-6 aspect-square" />
                     <span class="normal-font-size">Kirim pesan</span>
                 </a>
